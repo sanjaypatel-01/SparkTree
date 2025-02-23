@@ -11,7 +11,7 @@ import IconFire from "../assets/IconFire.svg";
 
 function Links() {
   return (
-    <div className="w-full h-full h-screen flex overflow-hidden">
+    <div className="w-full h-full h-screen flex">
       {/* Frame Section */}
       <div className="w-[45%] p-8 relative">
         <img className="w-70 ml-30" src={FrameMobile} alt="" />
