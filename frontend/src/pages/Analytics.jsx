@@ -15,16 +15,16 @@ function Analytics() {
               <span className='text-white text-lg'>Clicks on Links</span>
               <span className='text-white font-semibold text-3xl'>2,318</span>
             </div>
-            <div className='bg-green-200 h-[16vh] justify-center w-full rounded-2xl p-6 flex flex-col space-y-3 ml-[10vh]'>
+            <div className='bg-green-200 h-[16vh] justify-center w-full rounded-2xl p-6 flex flex-col space-y-3 ml-[8vh]'>
               <span className='text-black text-lg'>Click on Shop</span>
               <span className='text-black font-semibold text-3xl'>7,265</span>
             </div>
-            <div className='bg-green-200 h-[16vh] justify-end w-full rounded-2xl p-6 flex flex-col space-y-3 ml-[10vh]'>
+            <div className='bg-green-200 h-[16vh] justify-end w-full rounded-2xl p-6 flex flex-col space-y-3 ml-[8vh]'>
               <span className='text-black text-lg'>CTA</span>
               <span className='text-black font-semibold text-3xl'>156</span>
             </div>
         </div>
-        <div className='bg-gray-200 rounded-2xl h-[36vh] w-full mt-6'>
+        <div className='bg-white rounded-2xl h-[36vh] w-full mt-6'>
 
         </div>
         <div className='flex h-[40vh] mt-6 justify-between space-x-6 w-full'>

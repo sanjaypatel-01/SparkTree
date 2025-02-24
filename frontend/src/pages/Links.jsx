@@ -43,7 +43,7 @@ function Links() {
       </div>
 
       {/* Right Section: Profile and Banner */}
-      <div className="w-[55%] p-8 bg-blue-100 rounded-lg flex flex-col hide-scrollbar overflow-y-auto">
+      <div className="w-[55%] p-8 rounded-lg flex flex-col hide-scrollbar overflow-y-auto">
         <label className="text-xl font-semibold mb-4">Profile</label>
         <div className="rounded-lg flex flex-col h-80 w-full bg-white p-4">
           <div className="flex w-full">
