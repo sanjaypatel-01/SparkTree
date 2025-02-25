@@ -120,7 +120,7 @@ function Appearance() {
                 <img className="cursor-pointer" src={IconSpecial02} />
                 <img className="cursor-pointer" src={IconSpecial03} />
              </div>
-             <div className="w-full flex justify-between bg-white ml-[-6px]">
+             <div className="w-full flex justify-between bg-white">
                 <img className="cursor-pointer" src={IconSpecial04} />
                 <img className="cursor-pointer" src={IconSpecial05} />
                 <img className="cursor-pointer" src={IconSpecial06} />
@@ -166,12 +166,76 @@ function Appearance() {
 
           {/*Themes Section */}
           <label className="text-xl font-semibold mb-4 mt-10">Themes</label>
-          <div className="rounded-lg min-h-66 w-full bg-white p-4 flex flex-col">
-          
+          <div className="rounded-lg min-h-124 w-full bg-white p-6 px-10 flex flex-col space-y-6">
+              <div className="flex w-full justify-between">   
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-white rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-sm bg-gray-800"></span>
+                    <span className="w-full h-4 rounded-sm bg-gray-800"></span>
+                    <span className="w-full h-4 rounded-sm bg-gray-800"></span>         
+                  </div>
+                  <label className="text-sm">Air Snow</label>
+                </div>
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-[#E0E2D9] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-sm bg-white"></span>
+                    <span className="w-full h-4 rounded-sm bg-white"></span>
+                    <span className="w-full h-4 rounded-sm bg-white"></span>         
+                  </div>
+                  <label className="text-sm">Air Grey</label>
+                </div>
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-[#272d2f] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-sm bg-white"></span>
+                    <span className="w-full h-4 rounded-sm bg-white"></span>
+                    <span className="w-full h-4 rounded-sm bg-white"></span>         
+                  </div>
+                  <label className="text-sm">Air Smoke</label>
+                </div>
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-black rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-sm bg-gray-700"></span>
+                    <span className="w-full h-4 rounded-sm bg-gray-700"></span>
+                    <span className="w-full h-4 rounded-sm bg-gray-700"></span>         
+                  </div>
+                  <label className="text-sm">Air Black</label>
+                </div>
+              </div>
+              <div className="flex w-full justify-between">
+               <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-[#e4f5fe] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
+                  </div>
+                  <label className="text-sm">Mineral Blue</label>
+                </div>
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-[#e5f9ef] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
+                  </div>
+                  <label className="text-sm">Mineral Green</label>
+                </div>
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-[#fcefe3] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer">
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
+                    <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
+                  </div>
+                  <label className="text-sm">Mineral Orange</label>
+                </div>
+                <div className="flex flex-col space-y-1 items-center justify-center">
+                  <div className="bg-whiteh-46 w-30 p-2">
+
+                  </div>  
+                </div>
+              </div>
           </div>
 
         <div className="w-full flex justify-end pr-4 mb-30">
-          <button className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg">
+          <button className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg cursor-pointer">
             Save
           </button>
         </div>
