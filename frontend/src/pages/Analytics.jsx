@@ -2,7 +2,7 @@ import React from 'react'
 
 function Analytics() {
   return (
-    <div className='w-full flex pl-10 pr-22 pt-2 h-full bg-gray-100'>
+    <div className='w-full flex pl-10 pr-20 pt-2 h-full bg-blue-100'>
       <div className='flex flex-col w-full'>
         <div className='flex justify-between'>
             <label className='font-semibold'>Overview</label>
@@ -27,7 +27,7 @@ function Analytics() {
         <div className='bg-white rounded-2xl h-[36vh] w-full mt-6'>
 
         </div>
-        <div className='flex h-[40vh] mt-6 justify-between space-x-6 w-full'>
+        <div className='flex h-[60vh] mt-6 justify-between bg-red-300 space-x-6 w-full mb-20'>
           <div className='bg-gray-200 rounded-2xl h-full'>
 
           </div>

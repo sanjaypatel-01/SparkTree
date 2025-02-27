@@ -72,7 +72,7 @@ function Layout() {
                     <h1 className='text-3xl font-semibold'>Hi, Sanjay Patel!</h1>
                     <p className='text-sm text-gray-600'>Congratulations . You got a great response today .</p>
                 </div>
-                <div className='flex items-center items-center space-x-2 px-3 text-sm rounded-full bg-white'>
+                <div className='flex items-center items-center h-10 space-x-2 px-3 text-sm rounded-full bg-white'>
                     <img src={IconShare} alt="" />
                     <h4 className='font-semibold'>Share</h4>
                 </div>
