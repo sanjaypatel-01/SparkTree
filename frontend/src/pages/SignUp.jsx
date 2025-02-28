@@ -29,7 +29,7 @@ function SignUp() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/user/register', {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}user/register`, {
         firstname: formData.firstname,
         lastname: formData.lastname,
         email: formData.email,

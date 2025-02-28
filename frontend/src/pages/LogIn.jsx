@@ -21,7 +21,7 @@ function LogIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/user/login', formData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}user/login`, formData);
       alert(response.data.message);
       navigate('/links');
     } catch (error) {
