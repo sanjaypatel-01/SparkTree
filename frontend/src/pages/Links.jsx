@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/Logo.svg";
 import IconLinks from "../assets/IconLinks.svg";
 import IconAppearance from "../assets/IconAppearance.svg";
@@ -8,13 +8,26 @@ import ImageBoy from "../assets/ImageBoy.svg";
 import IconShare from "../assets/IconShare.svg";
 import FrameMobile from "../assets/FrameMobile.svg";
 import IconFire from "../assets/IconFire.svg";
+import LogoBlack from "../assets/LogoBlack.svg";
 
 function Links() {
+
+  const [frameBg, setFrameBg] = useState("#342B26");
+
+  const handleFrameBgChange = (color) => {
+    setFrameBg(color);
+  };
+
   return (
     <div className="w-full h-full h-screen flex">
       {/* Frame Section */}
       <div className="w-[45%] p-8 relative">
-        <img className="w-70 ml-30" src={FrameMobile} alt="" />
+        {/* <img className="w-70 ml-30" src={FrameMobile} alt="" /> */}
+        <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
+          <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-[#ffffff]"></div>
+          <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: frameBg }}></div>
+          <img className="absolute w-20 top-10" src={ImageBoy}  />
+        </div>
         <h2 className="absolute top-24 left-60 mt-20 text-white font-bold text-xl">
           @sanjay_08
         </h2>
@@ -37,9 +50,10 @@ function Links() {
             <span className="font-semibold">Latest Instagram reel</span>
           </div>
         </div>
-        <div className="absolute top-108 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center">
+        <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center">
           <button>Get Connected</button>
         </div>
+        <img className="absolute top-136 left-64 w-18" src={LogoBlack}/>
       </div>
 
       {/* Right Section: Profile and Banner */}
@@ -89,7 +103,7 @@ function Links() {
         {/* Banner Section */}
         <label className="text-xl font-semibold mt-6 mb-4">Banner</label>
         <div className="rounded-lg flex flex-col h-116 w-full bg-white p-6">
-          <div className="p-4 bg-[#342B26] rounded-lg h-60 flex flex-col items-center justify-center">
+          <div className="p-4 rounded-lg h-60 flex flex-col items-center justify-center border-1 border-gray-200" style={{ backgroundColor: frameBg }}>
             <img className="w-30" src={ImageBoy} alt="" />
             <h4 className="text-white text-2xl font-bold">@sanjay_08</h4>
             <h3 className="text-lg text-gray-400 flex">
@@ -101,16 +115,24 @@ function Links() {
             Custom Background Color
           </label>
           <div className="w-full flex mt-2 space-x-2">
-            <span className="rounded-full w-12 h-12 bg-[#342B26]"></span>
-            <span className="rounded-full w-12 h-12 bg-[#FFFFFF] border-1 border-gray-200"></span>
-            <span className="rounded-full w-12 h-12 bg-[#000000]"></span>
+            <span onClick={() => handleFrameBgChange("#342B26")} className="rounded-full w-12 h-12 bg-[#342B26] cursor-pointer"></span>
+            <span onClick={() => handleFrameBgChange("#FFFFFF")} className="rounded-full w-12 h-12 bg-[#FFFFFF] border-1 border-gray-200 cursor-pointer"></span>
+            <span onClick={() => handleFrameBgChange("#000000")} className="rounded-full w-12 h-12 bg-[#000000] cursor-pointer"></span>
           </div>
           <div className="flex w-full mt-4 space-x-2">
-            <span className="rounded-lg w-12 h-12 bg-[#000000]"></span>
+            <span className="rounded-lg w-12 h-12 border-1 border-gray-200" style={{ backgroundColor: frameBg }}></span>
             <input
               className="ml-2 rounded-lg bg-gray-100 px-2"
-              type="number"
+              type="text"
+              maxLength={7}
               placeholder="#000000"
+              value={`#${frameBg.replace("#", "")}`}
+              onChange={(e) => {
+                const value = e.target.value.replace("#", ""); 
+                if (value.length <= 6) {
+                  handleFrameBgChange(`#${value}`); 
+                }
+              }}
             />
           </div>
         </div>
