@@ -28,7 +28,7 @@ function Links() {
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: frameBg }}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
         </div>
-        <h2 className="absolute top-24 left-60 mt-20 text-white font-bold text-xl">
+        <h2 className={`absolute top-24 left-60 mt-20 font-bold text-xl ${frameBg === "#FFFFFF" ? "text-gray-800" : "text-white"}`}>
           @sanjay_08
         </h2>
         <div className="absolute top-44 left-52 mt-20 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
@@ -105,7 +105,8 @@ function Links() {
         <div className="rounded-lg flex flex-col h-116 w-full bg-white p-6">
           <div className="p-4 rounded-lg h-60 flex flex-col items-center justify-center border-1 border-gray-200" style={{ backgroundColor: frameBg }}>
             <img className="w-30" src={ImageBoy} alt="" />
-            <h4 className="text-white text-2xl font-bold">@sanjay_08</h4>
+            {/* <h4 className="text-white text-2xl font-bold">@sanjay_08</h4> */}
+            <h4 className={`text-2xl font-bold ${frameBg === "#FFFFFF" ? "text-gray-700" : "text-white"}`}>@sanjay_08</h4>
             <h3 className="text-lg text-gray-400 flex">
               <img className="w-5" src={IconFire} />
               /sanjay_08
