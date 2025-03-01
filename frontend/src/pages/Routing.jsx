@@ -7,6 +7,7 @@ import Links from "./Links";
 import Appearance from "./Appearance";
 import Analytics from "./Analytics";
 import Setting from "./Setting";
+import Choose from "./Choose";
 
 function Routing() {
   return (
@@ -14,6 +15,7 @@ function Routing() {
       {/* Routes without Layout */}
       <Route path="/login" element={<LogIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/choose" element={<Choose />} />
 
       {/* Default route, redirect to /signup */}
       <Route path="/" element={<Navigate to="/signup" />} />

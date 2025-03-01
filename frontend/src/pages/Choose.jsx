@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Frame from '../assets/Frame.svg'
 import Logo from '../assets/Logo.svg'
+import { Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const categories = [
     { id: 1, name: 'Business', icon: '💼' },
@@ -19,11 +21,49 @@ const categories = [
 
 function Choose() {
 
+  const navigate = useNavigate();
+
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleCategoryClick = (id) => {
     setSelectedCategory(id);
   };
+
+  const [formData, setFormData] = useState({
+    username: '',})
+
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value});
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+
+        const token = localStorage.getItem("token"); // Assuming you stored the token in localStorage during login
+
+        if (!token) {
+            alert("User not authenticated");
+            navigate("/login");
+            return;
+        }
+
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}user/update`, {
+                 username: formData.username,
+              }, {
+                    headers: {
+                        Authorization: token, // Add Authorization token here
+                    },
+            });
+                console.log(response.data);
+                alert ("Username Registered Successfully!");
+              navigate('/links');
+        } catch (error) {
+            console.log(error);
+            alert("something went wrong!");
+        }
+    }
 
 
   return (
@@ -32,10 +72,10 @@ function Choose() {
             <div>
                 <img className='p-12' src={Logo} alt="" />
             </div>
-            <div className='px-40 flex flex-col h-full relative'>
+            <form onSubmit={handleSubmit} className='px-40 flex flex-col h-full relative'>
                 <h2 className='text-6xl font-extrabold tracking-[-2px]' >Tell us about yourself</h2>
                 <p className='text-md text-gray-400 font-semibold mt-4'>For a personalized Spark experience</p>
-                <input className='bg-[#EFF0EC] rounded-md p-3 mt-10' type="text" placeholder='Tell us your username'/>
+                <input name='username' onChange={handleChange} value={formData.value} className='bg-[#EFF0EC] rounded-md p-3 mt-10' type="text" placeholder='Tell us your username'/>
                 <label className='font-semibold text-black text-md mt-12'>Select one category that best describes your Linktree:</label>
                 <div className="flex flex-wrap justify-start gap-4 mt-6">
                     {categories.map((cat) => {
@@ -57,8 +97,8 @@ function Choose() {
                     );
                     })}
                 </div>
-                <button className='rounded-full p-3 mt-12 font-semibold bg-[#28A263] hover:font-bold text-white cursor-pointer transition duration-160'>Continue</button>
-            </div>
+                <button type='submit' className='rounded-full p-3 mt-12 font-semibold bg-[#28A263] hover:font-bold text-white cursor-pointer transition duration-160'>Continue</button>
+            </form>
         </div>
         <div className='w-[38%]'>
            <img className='h-full w-full object-cover' src={Frame} alt="" />

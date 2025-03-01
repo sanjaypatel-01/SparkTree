@@ -21,6 +21,10 @@ function SignUp() {
     setFormData({...formData, [e.target.name]: e.target.value});
   }
 
+  const handleNavigate = () => {
+    navigate("/login")
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -55,7 +59,7 @@ function SignUp() {
                 <form className='w-[65%] mt-10' onSubmit={handleSubmit}>
                   <div className='flex justify-between'>
                     <h2 className='text-3xl font-semibold'>Create an account</h2>
-                    <button className='text-green-600 underline text-sm cursor-pointer'>Sign in instead</button>
+                    <button onClick={handleNavigate} className='text-green-600 underline text-sm cursor-pointer'>Sign in instead</button>
                   </div>
                   <div className='mt-4'>
                     <label className='text-md text-gray-600'>First Name</label>

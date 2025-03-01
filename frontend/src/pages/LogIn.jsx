@@ -23,7 +23,8 @@ function LogIn() {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}user/login`, formData);
       alert(response.data.message);
-      navigate('/links');
+      localStorage.setItem("token", response.data.token); // Store JWT Token
+      navigate('/choose');
     } catch (error) {
       console.log(error.response.data.message);
       alert(error.response.data.message);
