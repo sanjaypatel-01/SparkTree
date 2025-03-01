@@ -52,9 +52,9 @@ function Choose() {
             const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}user/update`, {
                  username: formData.username,
               }, {
-                    headers: {
-                        Authorization: token, // Add Authorization token here
-                    },
+                headers: {
+                    Authorization: `Bearer ${token}`, // Add "Bearer" before the token
+                  },
             });
                 console.log(response.data);
                 alert ("Username Registered Successfully!");
@@ -82,6 +82,7 @@ function Choose() {
                     const isSelected = cat.id === selectedCategory;
                     return (
                         <button
+                        type="button"
                         key={cat.id}
                         onClick={() => handleCategoryClick(cat.id)}
                         className={`flex items-center px-4 py-2 rounded-full border cursor-pointer transition-colors duration-160

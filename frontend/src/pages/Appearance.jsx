@@ -29,21 +29,31 @@ import IconSpecial03 from "../assets/Buttons/IconSpecial03.svg";
 import IconSpecial04 from "../assets/Buttons/IconSpecial04.svg";
 import IconSpecial05 from "../assets/Buttons/IconSpecial05.svg";
 import IconSpecial06 from "../assets/Buttons/IconSpecial06.svg";
+import LogoBlack from "../assets/LogoBlack.svg";
 
 function Appearance() {
 
-  const [frameBg, setFrameBg] = useState("bg-gray-300");
+  const [frameBg, setFrameBg] = useState("#ffffff");
+  const [frameTopBg, setFrameTopBg] = useState("#342B26");
   const [frameButtonBg, setFrameButtonBg] = useState("bg-gray-300");
 
   const handleThemeButtonChange = (color) => {
     setFrameButtonBg(color);
   };
 
+  const handleFrameBgChange = (color) => {
+    setFrameBg(color); 
+  }
+
   return (
     <div className="w-full h-full h-screen flex">
       {/* Frame Section */}
       <div className="w-[45%] p-8 relative">
-        <img className="w-70 ml-30" src={FrameMobile} alt="" />
+        <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
+          <div className={`absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl ${frameBg}`}></div>
+          <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl bg-[#342B26]"></div>
+          <img className="absolute w-20 top-10" src={ImageBoy}  />
+        </div>
         <h2 className="absolute top-24 left-60 mt-20 text-white font-bold text-xl">
           @sanjay_08
         </h2>
@@ -56,19 +66,20 @@ function Appearance() {
           </button>
         </div>
         <div className="absolute top-62 left-46 mt-20 space-y-3 w-full max-w-md">
-          <div className={`flex w-56 items-center text-sm ${frameButtonBg} space-x-2 rounded-full pl-2 py-2`}>
+          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2`}>
             <span className="w-10 h-10 bg-white rounded-full"></span>
             <span className="font-semibold">Latest YouTube Video</span>
           </div>
 
-          <div className={`flex w-56 items-center text-sm ${frameButtonBg} space-x-2 rounded-full pl-2 py-2`}>
+          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2`}>
             <span className="w-10 h-10 bg-white rounded-full"></span>
             <span className="font-semibold">Latest Instagram reel</span>
           </div>
         </div>
-        <div className="absolute top-108 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center">
+        <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center">
           <button>Get Connected</button>
         </div>
+        <img className="absolute top-136 left-64 w-18" src={LogoBlack}/>
       </div>
 
       {/* Right Section: Layout, Buttons, Fonts, Themes */}
@@ -178,7 +189,7 @@ function Appearance() {
               <div className="flex w-full justify-between">   
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-white rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                       onClick={() => handleThemeButtonChange("bg-gray-800")}>
+                       onClick={() => {handleThemeButtonChange("bg-gray-800"); handleFrameBgChange("bg-white")}}>
                     <span className="w-full h-4 rounded-sm bg-gray-800"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-800"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-800"></span>         
@@ -187,7 +198,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#E0E2D9] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                   onClick={() => handleThemeButtonChange("bg-white")}>
+                   onClick={() => {handleThemeButtonChange("bg-white"); handleFrameBgChange("bg-[#E0E2D9]")}}>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>         
@@ -196,7 +207,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#272d2f] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => handleThemeButtonChange("bg-white")}>
+                  onClick={() => {handleThemeButtonChange("bg-white"); handleFrameBgChange("bg-[#272d2f]")}}>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>         
@@ -205,7 +216,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-black rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => handleThemeButtonChange("bg-gray-700")}>
+                  onClick={() => {handleThemeButtonChange("bg-gray-700"); handleFrameBgChange("bg-black")}}>
                     <span className="w-full h-4 rounded-sm bg-gray-700"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-700"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-700"></span>         
@@ -216,7 +227,7 @@ function Appearance() {
               <div className="flex w-full justify-between">
                <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#e4f5fe] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => handleThemeButtonChange("bg-[#e4f5fe]")}>
+                  onClick={() => {handleThemeButtonChange("bg-[#e4f5fe]"); handleFrameBgChange("bg-[#e4f5fe]")}}>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
@@ -225,7 +236,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#e5f9ef] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => handleThemeButtonChange("bg-[#e5f9ef]")}>
+                  onClick={() => {handleThemeButtonChange("bg-[#e5f9ef]"); handleFrameBgChange("bg-[#e5f9ef]")}}>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
@@ -234,7 +245,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#fcefe3] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => handleThemeButtonChange("bg-[#fcefe3]")}>
+                  onClick={() => {handleThemeButtonChange("bg-[#fcefe3]"); handleFrameBgChange("bg-[#fcefe3]")}}>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         

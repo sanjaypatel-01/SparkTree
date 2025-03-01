@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Logo from '../assets/Logo.svg'
 import IconLinks from '../assets/IconLinks.svg'
 import IconAppearance from '../assets/IconAppearance.svg'
@@ -17,20 +18,61 @@ function Layout() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(""); // Search state
 
+  const [userFullName, setUserFullName] = useState("");
+
+//   const fetchUserDetails = async () => {
+//     try {
+//       const token = localStorage.getItem("authToken");
+//       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}user/profile`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+    
+//       // Assuming API returns firstname and lastname
+//       const { firstname, lastname } = response.data;
+//       setUserFullName(`${firstname} ${lastname}`);
+//     //   const userFullName = `${firstname} ${lastname}`;
+//       console.log("User Full Name:", userFullName);
+//     } catch (err) {
+//       setError("Failed to fetch user data");
+//       console.error(err);
+//     }
+//   };
+  
+const fetchUserDetails = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+  
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}user/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+        },
+      });
+  
+      const { firstname, lastname } = response.data;
+      setUserFullName(`${firstname} ${lastname}`);
+      console.log("User Full Name:", `${firstname} ${lastname}`);
+    } catch (err) {
+      console.error("Failed to fetch user data:", err);
+    }
+  };
+  
+  
+  useEffect(() => { 
+    fetchUserDetails();
+  }, []);
+
   return (
     <div className='w-full h-screen flex overflow-hidden'>
 
         {/* Left Sidebar */}
         <div className='w-[15%] flex flex-col relative fixed h-screen'>
             <img className='p-8' src={Logo} alt="" />
-            {/* <div className='flex mt-2 p-4 pl-6 font-semibold space-x-4 bg-gray-100'>
-                <img src={IconLinks} alt="" />
-                <label>Links</label>  
-            </div> */}
-            {/* <div className='flex mt-2 p-4 pl-6 space-x-4'>
-                <img src={IconAppearance} alt="" />
-                <label>Appearance</label>     
-            </div> */}
             <Link to="/links" className={`flex mt-2 p-4 pl-6 space-x-4 cursor-pointer ${
                     location.pathname === "/links"
                     ? "bg-gray-100 text-green-600 font-semibold"
@@ -61,7 +103,7 @@ function Layout() {
             </Link>
             <div className='absolute bottom-6 flex items-center px-3 py-1 ml-6 rounded-full font-semibold italic border-1 border-black space-x-3'>
                 <img src={ImageBoy} alt="" />
-                <h4>Sanjay Patel</h4>
+                <h4>{userFullName ? userFullName : "User"}</h4>
             </div>
         </div>
 
@@ -69,7 +111,7 @@ function Layout() {
         <div className='w-[85%] flex flex-col bg-gray-100 h-screen'>
             <div className='flex justify-between p-8'>
                 <div>
-                    <h1 className='text-3xl font-semibold'>Hi, Sanjay Patel!</h1>
+                    <h1 className='text-3xl font-semibold'>Hi, {userFullName ? userFullName : "User"}!</h1>
                     <p className='text-sm text-gray-600'>Congratulations . You got a great response today .</p>
                 </div>
                 <div className='flex items-center items-center h-10 space-x-2 px-3 text-sm rounded-full bg-white'>

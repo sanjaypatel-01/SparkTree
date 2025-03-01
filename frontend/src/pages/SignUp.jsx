@@ -41,7 +41,8 @@ function SignUp() {
       });
       console.log(response.data);
       alert ("User Registered Successfully!");
-      navigate("/login")
+      localStorage.setItem("token", response.data.token); 
+      navigate("/choose")
     } catch (error) {
       console.log(error);
       alert("something went wrong!");

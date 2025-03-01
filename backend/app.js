@@ -7,6 +7,7 @@ import cors from "cors";
 import useragent from "express-useragent";
 import db from "./config/mongoose-connection.js" // MongoDB Connection
 import userRoutes from "./routes/user-route.js"
+import linkRoutes from "./routes/link-route.js"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 
 // API routes
 app.use("/user", userRoutes); 
+app.use("/link", linkRoutes); 
 
 // Start Server
 app.listen(PORT, () => {
