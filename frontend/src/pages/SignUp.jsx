@@ -60,7 +60,7 @@ function SignUp() {
                 <form className='w-[65%] mt-10' onSubmit={handleSubmit}>
                   <div className='flex justify-between'>
                     <h2 className='text-3xl font-semibold'>Create an account</h2>
-                    <button onClick={handleNavigate} className='text-green-600 underline text-sm cursor-pointer'>Sign in instead</button>
+                    <button onClick={handleNavigate} className='text-green-600 underline text-sm cursor-pointer hover:font-semibold'>Sign in instead</button>
                   </div>
                   <div className='mt-4'>
                     <label className='text-md text-gray-600'>First Name</label>

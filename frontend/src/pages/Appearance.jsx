@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react'
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Logo from "../assets/Logo.svg";
 import IconLinks from "../assets/IconLinks.svg";
 import IconAppearance from "../assets/IconAppearance.svg";
@@ -30,6 +32,8 @@ import IconSpecial04 from "../assets/Buttons/IconSpecial04.svg";
 import IconSpecial05 from "../assets/Buttons/IconSpecial05.svg";
 import IconSpecial06 from "../assets/Buttons/IconSpecial06.svg";
 import LogoBlack from "../assets/LogoBlack.svg";
+import LogoInstagram from "../assets/ApplicationsIcons/Instagram.svg";
+import LogoYoutube from "../assets/ApplicationsIcons/Youtube.svg";
 
 function Appearance() {
 
@@ -45,6 +49,47 @@ function Appearance() {
     setFrameBg(color); 
   }
 
+  const [selected, setSelected] = useState("Stack");
+
+  const handleClick = (label) => {
+    setSelected(label);
+  };
+
+  const layouts = [
+    { label: "Stack", icon: IconStack },
+    { label: "Grid", icon: IconGrid },
+    { label: "Carousel", icon: IconCarousel }
+  ];
+
+  const [userName, setUserName] = useState("");
+      
+  const fetchUserDetails = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+    
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+          },
+        });
+    
+        const { username } = response.data;
+        setUserName(`${username}`);
+        console.log("User Full Name:", `${username}`);
+      } catch (err) {
+        console.error("Failed to fetch user data:", err);
+      }
+    };
+    
+    
+    useEffect(() => { 
+      fetchUserDetails();
+    }, []);
+
   return (
     <div className="w-full h-full h-screen flex">
       {/* Frame Section */}
@@ -54,30 +99,30 @@ function Appearance() {
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl bg-[#342B26]"></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
         </div>
-        <h2 className="absolute top-24 left-60 mt-20 text-white font-bold text-xl">
-          @sanjay_08
+        <h2 className="absolute top-24 left-62 mt-20 text-white font-bold text-xl">
+          @{userName}
         </h2>
         <div className="absolute top-44 left-52 mt-20 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
-          <button className="px-8 py-1 rounded-full transition-colors bg-[#28A263] text-white">
+          <button className="px-8 py-1 rounded-full transition-colors bg-[#28A263] text-white cursor-pointer">
             link
           </button>
-          <button className="px-4 py-1 rounded-full transition-colors text-gray-700">
+          <button className="px-4 py-1 rounded-full transition-colors text-gray-700 cursor-pointer">
             Shop
           </button>
         </div>
         <div className="absolute top-62 left-46 mt-20 space-y-3 w-full max-w-md">
-          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2`}>
-            <span className="w-10 h-10 bg-white rounded-full"></span>
+          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer`}>
+            <span className="w-10 h-10 bg-white rounded-full flex items-center justify-center p-2"> <img src={LogoYoutube} /></span>
             <span className="font-semibold">Latest YouTube Video</span>
           </div>
 
-          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2`}>
-            <span className="w-10 h-10 bg-white rounded-full"></span>
+          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer`}>
+            <span className="w-10 h-10 bg-white rounded-full flex items-center justify-center p-2"> <img src={LogoInstagram} /></span>
             <span className="font-semibold">Latest Instagram reel</span>
           </div>
         </div>
-        <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center">
-          <button>Get Connected</button>
+        <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center cursor-pointer">
+          <button className="cursor-pointer">Get Connected</button>
         </div>
         <img className="absolute top-136 left-64 w-18" src={LogoBlack}/>
       </div>

@@ -9,6 +9,10 @@ function LogIn() {
 
   const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    navigate("/signup")
+  }
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -44,7 +48,7 @@ function LogIn() {
                 <input name='email' value={formData.email} onChange={handleChange} className='bg-[#EFF0EC] rounded-md p-3 mt-16' type="email" placeholder='Spark/Username'/>
                 <input name='password' value={formData.password} onChange={handleChange} className='bg-[#EFF0EC] rounded-md p-3 mt-6' type="password" placeholder='Password'/>
                 <button type='submit' className='bg-[#E0E2D9] text-[#A8AAA2] rounded-full p-3 mt-16 font-semibold hover:bg-[#28A263] hover:font-bold hover:text-white cursor-pointer transition duration-160'>Log in</button>
-                <p className='mt-6 text-center'>Don't Have an account? <span className='text-green-500 underline mt-8 cursor-pointer hover:font-semibold'>Sign up</span></p>
+                <p className='mt-6 text-center'>Don't Have an account? <span onClick={handleNavigate} className='text-green-500 underline mt-8 cursor-pointer hover:font-semibold'>Sign up</span></p>
                 <p className='text-sm text-center text-gray-500 absolute bottom-20'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy Policy</span> and <span className='underline'>Terms of Service</span> apply.</p>
             </form>
         </div>
