@@ -113,6 +113,8 @@ function Appearance() {
     
     const [bannerImage, setBannerImage] = useState("");
 
+    const [id, setId] = useState("");
+
         const fetchBioBannerDetails = async () => {
           try {
             const token = localStorage.getItem("token");
@@ -129,6 +131,7 @@ function Appearance() {
         
             const { bannerImage } = response.data;
             setBannerImage(bannerImage);
+            setId(response.data.userId);
             console.log("Bio and Banner:", bannerImage);
             console.log("banner", response.data)
           } catch (err) {
