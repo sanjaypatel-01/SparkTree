@@ -28,32 +28,76 @@ router.get('/getlinks', authMiddleware, async (req, res) => {
 });
 
 // Create Link
+// Create Link
+// router.post("/create-link", authMiddleware, async (req, res) => {
+//   let { title, url, application } = req.body;
+//   const userId = req.user.id; // Extract user ID from token
+
+//   try {
+//     // Validate required fields
+//     if (!title || !url || !application) {
+//       return res.status(400).json({ message: "Title, URL, and Application are required" });
+//     }
+
+//     // Normalize the application field to lowercase
+//     application = application.toLowerCase();
+
+//     // Create new profile with the link wrapped in an array
+//     const newProfile = await linkModel.create({
+//       userId,
+//       links: [{ title, url, application }],
+//     });
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Profile created successfully",
+//       profile: newProfile,
+//     });
+//   } catch (err) {
+//     console.error("Create Link Error:", err);
+//     res.status(500).json({ message: "Internal Server Error", error: err.message });
+//   }
+// });
 router.post("/create-link", authMiddleware, async (req, res) => {
-  const { title, url, application } = req.body;
+  let { title, url, application } = req.body;
   const userId = req.user.id; // Extract user ID from token
 
   try {
+    // Validate required fields
     if (!title || !url || !application) {
-      return res.status(400).json({ message: "Banner Image and Bio are required" });
+      return res.status(400).json({ message: "Title, URL, and Application are required" });
     }
 
-    const newProfile = await linkModel.create({
-      userId,
-      title,
-      url,
-      application
-    });
+    // Normalize the application field to lowercase
+    application = application.toLowerCase();
+
+    // Check if profile already exists for the user
+    let profile = await linkModel.findOne({ userId });
+
+    if (profile) {
+      // Profile exists: push new link into links array
+      profile.links.push({ title, url, application });
+      await profile.save();
+    } else {
+      // Profile doesn't exist: create a new profile with the link inside an array
+      profile = await linkModel.create({
+        userId,
+        links: [{ title, url, application }],
+      });
+    }
 
     res.status(201).json({
       success: true,
-      message: "Profile created successfully",
-      profile: newProfile,
+      message: "Link created successfully",
+      profile,
     });
   } catch (err) {
     console.error("Create Link Error:", err);
     res.status(500).json({ message: "Internal Server Error", error: err.message });
   }
 });
+
+
 
 // Fetch Links
 router.get("/fetch-link", authMiddleware, async (req, res) => {

@@ -45,6 +45,7 @@ function AddLinkModal({ onClose}) {
   
       console.log("Link created successfully:", response.data);
       setLinkDetails(`Title: ${title}, URL: ${url}, Application: ${application}`);
+      onClose();
     } catch (err) {
       console.error("Failed to fetch user data:", err);
     }
