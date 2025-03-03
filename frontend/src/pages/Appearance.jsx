@@ -110,11 +110,37 @@ function Appearance() {
       }
     };
     
+    const [bannerImage, setBannerImage] = useState("");
+
+        const fetchBioBannerDetails = async () => {
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              console.error("No token found");
+              return;
+            }
+        
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/getlinks`, {
+              headers: {
+                Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+              },
+            });
+        
+            const { bannerImage } = response.data;
+            setBannerImage(bannerImage);
+            console.log("Bio and Banner:", bannerImage);
+            console.log("banner", response.data)
+          } catch (err) {
+            console.error("Failed to fetch user data:", err);
+          }
+        };
     
-    useEffect(() => { 
-      fetchUserDetails();
-      fetchLinkDetails();
-    }, []);
+
+        useEffect(() => { 
+          fetchUserDetails();
+          fetchLinkDetails();
+          fetchBioBannerDetails();
+        }, []);
 
   return (
     <div className="w-full h-full h-screen flex">
@@ -122,7 +148,7 @@ function Appearance() {
       <div className="w-[45%] p-8 relative">
         <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
           <div className={`absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl ${frameBg}`}></div>
-          <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl bg-[#342B26]"></div>
+          <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl" style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
           <img className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
         </div>
@@ -137,7 +163,7 @@ function Appearance() {
             Shop
           </button>
         </div>
-        <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+        {/* <div className="absolute top-62 left-46 mt-16 space-y-3 w-56 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
 
           {fetchLinks.map((link) => (
               <a
@@ -153,7 +179,67 @@ function Appearance() {
             </a>
           ))}
 
+        </div> */}
+        {selected === "Stack" && (
+  <div className="absolute top-62 left-46 mt-16 space-y-3 w-56 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+    {fetchLinks.map((link) => (
+      <a
+        key={link._id} 
+        href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3">
+          <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2">
+            <img src={LogoYoutube} alt="Youtube" />
+          </span>
+          <span className="font-semibold">{link.title}</span>
         </div>
+      </a>
+    ))}
+  </div>
+)}
+
+{selected === "Grid" && (
+  <div className="absolute top-62 left-46 mt-16 grid grid-cols-2 gap-4 w-56 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+    {fetchLinks.map((link) => (
+      <a
+        key={link._id} 
+        href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className="flex flex-col items-center text-sm bg-gray-300 rounded-lg p-2 cursor-pointer">
+          <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
+            <img src={LogoYoutube} alt="Youtube" />
+          </span>
+          <span className="font-semibold">{link.title}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+)}
+
+{selected === "Carousel" && (
+  <div className="absolute top-70 left-46 mt-16 flex space-x-4 w-56 max-w-md overflow-x-auto hide-scrollbar">
+    {fetchLinks.map((link) => (
+      <a
+        key={link._id} 
+        href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className="flex flex-col items-center min-w-20 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer">
+          <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
+            <img src={LogoYoutube} alt="Youtube" />
+          </span>
+          <span className="font-semibold">{link.title}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+)}
+
         <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center cursor-pointer">
           <button className="cursor-pointer">Get Connected</button>
         </div>
@@ -165,19 +251,19 @@ function Appearance() {
         <label className="text-xl font-semibold mb-4">Layout</label>
         <div className="rounded-lg flex min-h-64 space-x-10 w-full bg-white items-center justify-center p-4">
           <div className="flex flex-col items-center space-y-2 cursor-pointer">
-              <div className="w-30 h-30 bg-gray-100 rounded-lg p-8">
+          <div onClick={() => handleClick("Stack")} className={`w-30 h-30 rounded-lg p-8 ${selected === "Stack" ? "bg-gray-100" : "bg-white border border-gray-800"}`}>
                   <img src={IconStack} alt="" />
               </div> 
               <label className="font-semibold">Stack</label>
           </div>
           <div className="flex flex-col items-center space-y-2 cursor-pointer">
-              <div className="w-30 h-30 bg-white border border-gray-800 rounded-lg p-8">
+          <div onClick={() => handleClick("Grid")} className={`w-30 h-30 rounded-lg p-8 ${selected === "Grid" ? "bg-gray-100" : "bg-white border border-gray-800"}`}>
                   <img src={IconGrid} alt="" />
               </div> 
               <label className="font-semibold">Grid</label>
           </div>
           <div className="flex flex-col items-center space-y-2 cursor-pointer">
-              <div className="w-30 h-30 bg-white border border-gray-800 rounded-lg p-8">
+          <div onClick={() => handleClick("Carousel")} className={`w-30 h-30 rounded-lg p-8 ${selected === "Carousel" ? "bg-gray-100" : "bg-white border border-gray-800"}`}>
                   <img src={IconCarousel} alt="" />
               </div> 
               <label className="font-semibold">Carousel</label>

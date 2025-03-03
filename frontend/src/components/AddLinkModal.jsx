@@ -100,7 +100,7 @@ function AddLinkModal({ onClose}) {
                 </div>
             </div>
         </div>
-            <button onClick={onClose} className='rounded-full px-4 text-md py-1  text-white text-md bg-gray-500 mt-10 cursor-pointer'>close</button>
+            <button onClick={onClose} className='rounded-full px-4 text-md py-1  text-white text-md bg-gray-500 mt-10 cursor-pointer hover:scale-105 hover:font-semibold'>close</button>
       </div>
     </div>
 

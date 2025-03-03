@@ -102,6 +102,7 @@ function Links() {
          // 2. Update state directly from the backend response
         setBio(response.data.bio);
         setBannerImage(response.data.bannerImage);
+        console.log("Bio and Banner updated successfully:", response.data.bio, response.data.bannerImage);
 
         // If you are also using frameBg to display the color preview,
         // you can sync it with bannerImage here:
@@ -175,7 +176,7 @@ function Links() {
         {/* <img className="w-70 ml-30" src={FrameMobile} alt="" /> */}
         <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
           <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-[#ffffff]"></div>
-          <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: frameBg }}></div>
+          <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
           <img className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
         </div>
@@ -253,7 +254,7 @@ function Links() {
             </button>
           </div>
           <div className="w-full">
-            <button onClick={openAddLinkModal} className="rounded-full w-full py-2 text-white text-md bg-[#28A263] mt-6 cursor-pointer">
+            <button onClick={openAddLinkModal} className="rounded-full w-full py-2 text-white text-md bg-[#28A263] mt-6 cursor-pointer hover:font-bold">
               + Add
             </button>
           </div>
@@ -278,7 +279,7 @@ function Links() {
         {/* Banner Section */}
         <label className="text-xl font-semibold mt-6 mb-4">Banner</label>
         <div className="rounded-lg flex flex-col h-116 w-full bg-white p-6">
-          <div className="p-4 rounded-lg h-60 flex flex-col items-center justify-center border-1 border-gray-200" style={{ backgroundColor: frameBg }}>
+          <div className="p-4 rounded-lg h-60 flex flex-col items-center justify-center border-1 border-gray-200" style={{ backgroundColor: bannerImage }}>
             <img className="w-30" src={ImageBoy} alt="" />
             {/* <h4 className="text-white text-2xl font-bold">@sanjay_08</h4> */}
             <h4 className={`text-2xl font-bold ${frameBg === "#FFFFFF" ? "text-gray-700" : "text-white"}`}>@{userName}</h4>
@@ -291,12 +292,12 @@ function Links() {
             Custom Background Color
           </label>
           <div className="w-full flex mt-2 space-x-2">
-            <span onClick={() => handleFrameBgChange("#342B26")} className="rounded-full w-12 h-12 bg-[#342B26] cursor-pointer"></span>
-            <span onClick={() => handleFrameBgChange("#FFFFFF")} className="rounded-full w-12 h-12 bg-[#FFFFFF] border-1 border-gray-200 cursor-pointer"></span>
-            <span onClick={() => handleFrameBgChange("#000000")} className="rounded-full w-12 h-12 bg-[#000000] cursor-pointer"></span>
+            <span onClick={() => setBannerImage("#342B26")} className="rounded-full w-12 h-12 bg-[#342B26] cursor-pointer"></span>
+            <span onClick={() => setBannerImage("#FFFFFF")} className="rounded-full w-12 h-12 bg-[#FFFFFF] border-1 border-gray-200 cursor-pointer"></span>
+            <span onClick={() => setBannerImage("#000000")} className="rounded-full w-12 h-12 bg-[#000000] cursor-pointer"></span>
           </div>
           <div className="flex w-full mt-4 space-x-2">
-            <span className="rounded-lg w-12 h-12 border-1 border-gray-200" style={{ backgroundColor: frameBg }}></span>
+            <span className="rounded-lg w-12 h-12 border-1 border-gray-200" style={{ backgroundColor: bannerImage }}></span>
             <input
               className="ml-2 rounded-lg bg-gray-100 px-2"
               type="text"
@@ -314,7 +315,7 @@ function Links() {
           </div>
         </div>
         <div className="w-full flex justify-end pr-4 mb-30">
-          <button onClick={setBioBanner} className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg cursor-pointer hover:font-semibold">
+          <button onClick={setBioBanner} className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg cursor-pointer hover:font-bold">
             Save
           </button>
         </div>
