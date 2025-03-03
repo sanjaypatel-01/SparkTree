@@ -153,7 +153,7 @@ function Appearance() {
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl" style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
           <img  onClick={() => {
-                      navigator.clipboard.writeText(`https://spark-tree-two.vercel.app/frame/`);
+                      navigator.clipboard.writeText(`https://spark-tree-two.vercel.app/frame/${id}`);
                       setShowToast(true);
                       setTimeout(() => setShowToast(false), 2000);
                     }}  className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
