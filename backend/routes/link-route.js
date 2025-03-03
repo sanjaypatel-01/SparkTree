@@ -4,10 +4,22 @@ import authMiddleware from '../middleware/Auth.middleware.js';
 
 const router = express.Router();
 
-// GET Profile by User ID
-router.get('/:id', authMiddleware, async (req, res) => {
+// POST Create Profile
+router.post('/links', authMiddleware, async (req, res) => {
+  const { bannerImage, bio } = req.body;
   try {
-    const profile = await linkModel.findOne({ userId: req.params.id });
+    const profile = new linkModel({ bannerImage, bio, userId: req.user.id });
+    await profile.save();
+    res.status(201).json(profile);
+  } catch (err) {
+    res.status(400).json({ message: 'Bad Request', error: err });
+  }
+});
+
+// GET Profile by User ID
+router.get('/getlinks', authMiddleware, async (req, res) => {
+  try {
+    const profile = await linkModel.findOne({ userId: req.user.id });
     if (!profile) return res.status(404).json({ message: 'Profile not found' });
     res.json(profile);
   } catch (err) {
@@ -15,17 +27,56 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// POST Create Profile
-router.post('/', authMiddleware, async (req, res) => {
-  const { userId, bannerImage, socialIcons, links } = req.body;
+// Create Link
+router.post("/create-link", authMiddleware, async (req, res) => {
+  const { title, url, application } = req.body;
+  const userId = req.user.id; // Extract user ID from token
+
   try {
-    const profile = new linkModel({ userId, bannerImage, socialIcons, links });
-    await profile.save();
-    res.status(201).json(profile);
+    if (!title || !url || !application) {
+      return res.status(400).json({ message: "Banner Image and Bio are required" });
+    }
+
+    const newProfile = await linkModel.create({
+      userId,
+      title,
+      url,
+      application
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Profile created successfully",
+      profile: newProfile,
+    });
   } catch (err) {
-    res.status(400).json({ message: 'Bad Request', error: err });
+    console.error("Create Link Error:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
   }
 });
+
+// Fetch Links
+router.get("/fetch-link", authMiddleware, async (req, res) => {
+  const userId = req.user.id; // Extract user ID from token
+
+  try {
+    const profile = await linkModel.findOne({ userId });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Links fetched successfully",
+      links: profile.links,
+    });
+  } catch (err) {
+    console.error("Fetch Links Error:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
+});
+
 
 // PUT Update Profile by User ID
 router.put('/:id', authMiddleware, async (req, res) => {

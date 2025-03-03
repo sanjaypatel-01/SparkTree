@@ -34,6 +34,7 @@ function Links() {
   };
 
   const [userName, setUserName] = useState("");
+  
     
   const fetchUserDetails = async () => {
       try {
@@ -57,9 +58,52 @@ function Links() {
       }
     };
     
+    const fetchLinksDetails = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+    
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/getlinks`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+          },
+        });
+    
+        const { bio, bannerImage } = response.data;
+        setBio(bio);
+        setBannerImage(bannerImage);
+        console.log("Bio and Banner:", `${bio, bannerImage}`);
+      } catch (err) {
+        console.error("Failed to fetch user data:", err);
+      }
+    };
+
+    const [bannerImage, setBannerImage] = useState("");
+    const [bio, setBio] = useState("Bio");
+    
+    const setBioBanner = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}api/links`,{bannerImage, bio}, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+          },
+        });
+      } catch (err) {
+        console.error("Failed to fetch user data:", err);
+      }
+    };
     
     useEffect(() => { 
       fetchUserDetails();
+      fetchLinksDetails();
     }, []);
 
 
@@ -123,9 +167,10 @@ function Links() {
           </div>
           <div className="bg-gray-100 w-full h-20 rounded-lg p-2 mt-2 flex flex-col">
             <label className="text-sm text-gray-500">Bio</label>
-            <textarea className="border-none text-md mt-1" name="" id="">
-              Bio
+            <textarea value={bio} onChange={(e) => setBio(e.target.value)} className="border-none text-md mt-1" placeholder="Bio">
+              
             </textarea>
+           
           </div>
         </div>
 
@@ -173,18 +218,19 @@ function Links() {
               type="text"
               maxLength={7}
               placeholder="#000000"
-              value={`#${frameBg.replace("#", "")}`}
+              // value={`#${frameBg.replace("#", "")}` || `${bannerImage}`}
+              value={bannerImage}
               onChange={(e) => {
                 const value = e.target.value.replace("#", ""); 
                 if (value.length <= 6) {
-                  handleFrameBgChange(`#${value}`); 
+                  handleFrameBgChange(`#${value}`); setBannerImage(`${e.target.value}`);
                 }
               }}
             />
           </div>
         </div>
         <div className="w-full flex justify-end pr-4 mb-30">
-          <button className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg">
+          <button onClick={setBioBanner} className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg">
             Save
           </button>
         </div>

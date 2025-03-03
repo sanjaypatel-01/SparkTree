@@ -1,24 +1,29 @@
 import mongoose from 'mongoose';
 
-const SocialIconSchema = new mongoose.Schema({
-  platform: { type: String, required: true },
-  url: { type: String, required: true }
-});
-
 const LinkSchema = new mongoose.Schema({
   title: { type: String, required: true },
   url: { type: String, required: true },
+  application: { type: String, required: true, enum: ['twitter', 'facebook', 'instagram', 'youtube'] },
   createdAt: { type: Date, default: Date.now }
+});
+
+const BioSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  bio: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const ProfileSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   bannerImage: { type: String },
-  socialIcons: [SocialIconSchema],
   links: [LinkSchema],
+  bioo: [BioSchema],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
+
+
 
 ProfileSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
