@@ -20,6 +20,7 @@ import LogoYoutube from "../assets/ApplicationsIcons/Youtube.svg";
 function Links() {
 
   const [frameBg, setFrameBg] = useState("#342B26");
+  const [showToast, setShowToast] = useState(false);
 
   const handleFrameBgChange = (color) => {
     setFrameBg(color);
@@ -59,6 +60,8 @@ function Links() {
         console.error("Failed to fetch user data:", err);
       }
     };
+
+    const [id, setId] = useState("");
     
     const fetchBioBannerDetails = async () => {
       try {
@@ -77,6 +80,7 @@ function Links() {
         const { bio, bannerImage } = response.data;
         setBio(bio);
         setBannerImage(bannerImage);
+        setId(response.data.userId);
         console.log("Bio and Banner:", bio, bannerImage);
       } catch (err) {
         console.error("Failed to fetch user data:", err);
@@ -178,7 +182,12 @@ function Links() {
           <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-[#ffffff]"></div>
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
-          <img className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
+          <img onClick={() => {
+                      navigator.clipboard.writeText(`https://spark-tree-two.vercel.app/frame/${id}`);
+                      setShowToast(true);
+                      setTimeout(() => setShowToast(false), 2000);
+                    }} 
+                className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
         </div>
         <h2 className={`absolute top-24 left-62 mt-20 font-bold text-xl ${frameBg === "#FFFFFF" ? "text-gray-800" : "text-white"}`}>
           @{userName}
@@ -323,6 +332,13 @@ function Links() {
     </div>
 
     {isAddLinkModalOpen && <AddLinkModal onClose={closeAddLinkModal} />}
+
+    {showToast && (
+          <div className="fixed bottom-24 left-18 bg-white border border-blue-500 shadow-md rounded-lg px-10 py-2 flex items-center space-x-2">
+            <i className="fa-solid fa-check-circle text-blue-500 text-lg"></i>
+            <span className="text-gray-800 font-semibold">Link Copied</span>
+          </div>
+      )}
 
     </>
   );

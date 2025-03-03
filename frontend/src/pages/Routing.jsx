@@ -8,6 +8,7 @@ import Appearance from "./Appearance";
 import Analytics from "./Analytics";
 import Setting from "./Setting";
 import Choose from "./Choose";
+import Frame from "../components/Frame";
 
 function Routing() {
   return (
@@ -16,6 +17,7 @@ function Routing() {
       <Route path="/login" element={<LogIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/choose" element={<Choose />} />
+      <Route path="/frame/:id" element={<Frame />} />
 
       {/* Default route, redirect to /signup */}
       <Route path="/" element={<Navigate to="/signup" />} />

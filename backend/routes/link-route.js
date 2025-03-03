@@ -43,6 +43,17 @@ router.get('/getlinks', authMiddleware, async (req, res) => {
   }
 });
 
+// for frame share
+router.get('/getlinks/:id', async (req, res) => {
+  try {
+    const profile = await linkModel.findOne({ userId: req.params.id });
+    if (!profile) return res.status(404).json({ message: 'Profile not found' });
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err });
+  }
+});
+
 // Create Link
 // Create Link
 // router.post("/create-link", authMiddleware, async (req, res) => {
@@ -118,6 +129,27 @@ router.post("/create-link", authMiddleware, async (req, res) => {
 // Fetch Links
 router.get("/fetch-link", authMiddleware, async (req, res) => {
   const userId = req.user.id; // Extract user ID from token
+
+  try {
+    const profile = await linkModel.findOne({ userId });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Links fetched successfully",
+      links: profile.links,
+    });
+  } catch (err) {
+    console.error("Fetch Links Error:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
+});
+
+router.get("/fetch-link/:id", async (req, res) => {
+  const userId = req.params.id; // Extract user ID from token
 
   try {
     const profile = await linkModel.findOne({ userId });

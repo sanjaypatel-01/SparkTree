@@ -41,6 +41,7 @@ function Appearance() {
   const [frameBg, setFrameBg] = useState("#ffffff");
   const [frameTopBg, setFrameTopBg] = useState("#342B26");
   const [frameButtonBg, setFrameButtonBg] = useState("bg-gray-300");
+  const [showToast, setShowToast] = useState(false);
 
   const handleThemeButtonChange = (color) => {
     setFrameButtonBg(color);
@@ -143,14 +144,19 @@ function Appearance() {
         }, []);
 
   return (
-    <div className="w-full h-full h-screen flex">
+    <>
+        <div className="w-full h-full h-screen flex">
       {/* Frame Section */}
       <div className="w-[45%] p-8 relative">
         <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
           <div className={`absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl ${frameBg}`}></div>
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl" style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
-          <img className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
+          <img  onClick={() => {
+                      navigator.clipboard.writeText(`https://spark-tree-two.vercel.app/frame/`);
+                      setShowToast(true);
+                      setTimeout(() => setShowToast(false), 2000);
+                    }}  className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
         </div>
         <h2 className="absolute top-24 left-62 mt-20 text-white font-bold text-xl">
           @{userName}
@@ -229,7 +235,7 @@ function Appearance() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="flex flex-col items-center min-w-20 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer">
+        <div className="flex flex-col items-center min-w-22 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer">
           <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
             <img src={LogoYoutube} alt="Youtube" />
           </span>
@@ -431,6 +437,14 @@ function Appearance() {
         </div>
       </div>
     </div>
+
+    {showToast && (
+          <div className="fixed bottom-24 left-18 bg-white border border-blue-500 shadow-md rounded-lg px-10 py-2 flex items-center space-x-2">
+            <i className="fa-solid fa-check-circle text-blue-500 text-lg"></i>
+            <span className="text-gray-800 font-semibold">Link Copied</span>
+          </div>
+      )}
+    </>
   );
 }
 

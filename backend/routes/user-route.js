@@ -115,6 +115,19 @@ router.get("/profile", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/profile/:id", async (req, res) => {
+  try {
+    const user = await userModel.findById(req.params.id); 
+    // const user = await userModel.findById(req.user.id).select("firstname lastname"); // sirf firstname and lastname hi chahiye tb ye karna hota hai
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 router.put("/update-setting", authMiddleware, async (req, res) => {
   try {
     const { firstname, lastname, email, password} = req.body;
