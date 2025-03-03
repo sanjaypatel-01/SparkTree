@@ -7,23 +7,14 @@ const LinkSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-const BioSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  bio: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
-
 const ProfileSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   bannerImage: { type: String },
   links: [LinkSchema],
-  bioo: [BioSchema],
+  bio: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
-
-
 
 ProfileSchema.pre('save', function (next) {
   this.updatedAt = Date.now();

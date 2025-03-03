@@ -8,9 +8,25 @@ const router = express.Router();
 router.post('/links', authMiddleware, async (req, res) => {
   const { bannerImage, bio } = req.body;
   try {
-    const profile = new linkModel({ bannerImage, bio, userId: req.user.id });
+    // const profile = new linkModel({ bannerImage, bio, userId: req.user.id });
+    // await profile.save();
+    // res.status(201).json(profile);
+    // 1. Look for an existing profile
+    let profile = await linkModel.findOne({ userId: req.user.id });
+
+    // 2. If it doesn't exist, create a new one
+    if (!profile) {
+      profile = new linkModel({ userId: req.user.id });
+    }
+
+    // 3. Update fields (whether new or existing)
+    profile.bannerImage = bannerImage;
+    profile.bio = bio;
+
+    // 4. Save changes
     await profile.save();
-    res.status(201).json(profile);
+
+    return res.status(200).json(profile);
   } catch (err) {
     res.status(400).json({ message: 'Bad Request', error: err });
   }
@@ -120,6 +136,42 @@ router.get("/fetch-link", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error: err.message });
   }
 });
+
+// Delete Link
+router.delete("/delete-link/:linkId", authMiddleware, async (req, res) => {
+  const userId = req.user.id; // Extract user ID from token
+  const { linkId } = req.params; // The ID of the link to be deleted
+
+  try {
+    // Find the user's profile that contains the links
+    let profile = await linkModel.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    // Check if the link exists in the profile's links array
+    const linkExists = profile.links.some(link => link._id.toString() === linkId);
+    if (!linkExists) {
+      return res.status(404).json({ message: "Link not found" });
+    }
+
+    // Remove the link by filtering it out
+    profile.links = profile.links.filter(link => link._id.toString() !== linkId);
+
+    // Save the updated profile
+    await profile.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Link deleted successfully",
+      profile,
+    });
+  } catch (err) {
+    console.error("Delete Link Error:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
+});
+
 
 
 // PUT Update Profile by User ID

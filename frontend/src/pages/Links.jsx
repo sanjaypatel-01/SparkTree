@@ -9,6 +9,7 @@ import IconAnalytics from "../assets/IconAnalytics.svg";
 import IconSettings from "../assets/IconSettings.svg";
 import ImageBoy from "../assets/ImageBoy.svg";
 import IconShare from "../assets/IconShare.svg";
+import FrameShareIcon from "../assets/FrameShareIcon.svg";
 import FrameMobile from "../assets/FrameMobile.svg";
 import IconFire from "../assets/IconFire.svg";
 import LogoBlack from "../assets/LogoBlack.svg";
@@ -76,7 +77,7 @@ function Links() {
         const { bio, bannerImage } = response.data;
         setBio(bio);
         setBannerImage(bannerImage);
-        console.log("Bio and Banner:", `${bio, bannerImage}`);
+        console.log("Bio and Banner:", bio, bannerImage);
       } catch (err) {
         console.error("Failed to fetch user data:", err);
       }
@@ -97,6 +98,15 @@ function Links() {
             Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
           },
         });
+
+         // 2. Update state directly from the backend response
+        setBio(response.data.bio);
+        setBannerImage(response.data.bannerImage);
+
+        // If you are also using frameBg to display the color preview,
+        // you can sync it with bannerImage here:
+        setFrameBg(response.data.bannerImage);
+
       } catch (err) {
         console.error("Failed to fetch user data:", err);
       }
@@ -125,6 +135,30 @@ function Links() {
         console.error("Failed to fetch user data:", err);
       }
     };
+
+    // Function to handle deletion of a specific link
+  const handleDelete = async (linkId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      // Send DELETE request to your backend
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}api/delete-link/${linkId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Update state by filtering out the deleted link
+      setFetchLinks(fetchLinks.filter((link) => link._id !== linkId));
+      console.log("Link deleted successfully");
+    } catch (err) {
+      console.error("Error deleting link:", err);
+    }
+    };
     
     useEffect(() => { 
       fetchUserDetails();
@@ -143,11 +177,12 @@ function Links() {
           <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-[#ffffff]"></div>
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: frameBg }}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
+          <img className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
         </div>
         <h2 className={`absolute top-24 left-62 mt-20 font-bold text-xl ${frameBg === "#FFFFFF" ? "text-gray-800" : "text-white"}`}>
           @{userName}
         </h2>
-        <div className="absolute top-44 left-52 mt-20 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
+        <div className="absolute top-44 left-52 mt-18 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
           <button className="px-8 py-1 rounded-full transition-colors bg-[#28A263] text-white cursor-pointer">
             link
           </button>
@@ -156,7 +191,7 @@ function Links() {
           </button>
         </div>
         
-        <div className="absolute top-62 left-46 mt-18 space-y-3 w-64 max-w-md overflow-y-auto max-h-42 hide-scrollbar">
+        <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
 
           {fetchLinks.map((link) => (
               <a
@@ -233,7 +268,7 @@ function Links() {
                     target="_blank"
                     rel="noopener noreferrer"
                   ><span className='text-gray-600 text-sm'>https://www.{link.title}.com/{userName}/</span>    </a>
-                      <img className='cursor-pointer' src={IconDelete} />
+                      <img onClick={() => handleDelete(link._id)} className='cursor-pointer hover:scale-120' src={IconDelete} />
                     </div>
                   </div>
             ))}
@@ -272,14 +307,14 @@ function Links() {
               onChange={(e) => {
                 const value = e.target.value.replace("#", ""); 
                 if (value.length <= 6) {
-                  handleFrameBgChange(`#${value}`); setBannerImage(`${e.target.value}`);
+                  handleFrameBgChange(`#${value}`); setBannerImage(`${e.target.value}`); 
                 }
               }}
             />
           </div>
         </div>
         <div className="w-full flex justify-end pr-4 mb-30">
-          <button onClick={setBioBanner} className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg">
+          <button onClick={setBioBanner} className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg cursor-pointer hover:font-semibold">
             Save
           </button>
         </div>

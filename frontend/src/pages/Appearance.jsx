@@ -8,6 +8,7 @@ import IconAnalytics from "../assets/IconAnalytics.svg";
 import IconSettings from "../assets/IconSettings.svg";
 import ImageBoy from "../assets/ImageBoy.svg";
 import IconShare from "../assets/IconShare.svg";
+import FrameShareIcon from "../assets/FrameShareIcon.svg";
 import FrameMobile from "../assets/FrameMobile.svg";
 import IconFire from "../assets/IconFire.svg";
 import IconStack from "../assets/Layout/IconStack.svg";
@@ -123,11 +124,12 @@ function Appearance() {
           <div className={`absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl ${frameBg}`}></div>
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl bg-[#342B26]"></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
+          <img className='absolute top-3 left-3 w-9 cursor-pointer' src={FrameShareIcon} />
         </div>
         <h2 className="absolute top-24 left-62 mt-20 text-white font-bold text-xl">
           @{userName}
         </h2>
-        <div className="absolute top-44 left-52 mt-20 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
+        <div className="absolute top-44 left-52 mt-18 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
           <button className="px-8 py-1 rounded-full transition-colors bg-[#28A263] text-white cursor-pointer">
             link
           </button>
@@ -135,7 +137,7 @@ function Appearance() {
             Shop
           </button>
         </div>
-        <div className="absolute top-62 left-46 mt-18 space-y-3 w-64 max-w-md overflow-y-auto max-h-42 hide-scrollbar">
+        <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
 
           {fetchLinks.map((link) => (
               <a
