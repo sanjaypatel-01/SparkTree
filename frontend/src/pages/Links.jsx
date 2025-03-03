@@ -12,6 +12,7 @@ import IconShare from "../assets/IconShare.svg";
 import FrameMobile from "../assets/FrameMobile.svg";
 import IconFire from "../assets/IconFire.svg";
 import LogoBlack from "../assets/LogoBlack.svg";
+import IconDelete from "../assets/IconDelete.svg";
 import LogoInstagram from "../assets/ApplicationsIcons/Instagram.svg";
 import LogoYoutube from "../assets/ApplicationsIcons/Youtube.svg";
 
@@ -155,24 +156,22 @@ function Links() {
           </button>
         </div>
         
-        <div className="absolute top-62 left-46 mt-20 space-y-3 w-full max-w-md">
+        <div className="absolute top-62 left-46 mt-18 space-y-3 w-64 max-w-md overflow-y-auto max-h-42 hide-scrollbar">
 
           {fetchLinks.map((link) => (
-              <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer">
+              <a
+              key={link._id} 
+              href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              >
+              <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3">
                 <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoYoutube} /></span>
                 <span className="font-semibold">{link.title}</span>
               </div>
+            </a>
           ))}
 
-          {/* <div className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer">
-            <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoYoutube} /></span>
-            <span className="font-semibold">Latest YouTube Video</span>
-          </div>
-
-          <div className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer">
-            <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoInstagram} /></span>
-            <span className="font-semibold">Latest Instagram reel</span>
-          </div> */}
         </div>
         <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center cursor-pointer">
           <button className="cursor-pointer">Get Connected</button>
@@ -209,7 +208,7 @@ function Links() {
         </div>
 
         {/* Links Section */}
-        <div className="rounded-lg h-36 w-full bg-white mt-10 p-4 flex flex-col">
+        <div className="rounded-lg h-36 w-full bg-white mt-10 p-4 min-h-82 flex flex-col">
           <div className="w-full">
             <button className="rounded-full py-2 px-4 text-white text-sm bg-[#28A263] cursor-pointer">
               Add Link
@@ -222,6 +221,22 @@ function Links() {
             <button onClick={openAddLinkModal} className="rounded-full w-full py-2 text-white text-md bg-[#28A263] mt-6 cursor-pointer">
               + Add
             </button>
+          </div>
+          <div className='overflow-y-auto hide-scrollbar mt-6 '>
+            {fetchLinks.map((link) => (
+                <div key={link} className='w-full mb-4 flex flex-col space-y-2 px-6 py-4 rounded-2xl min-h-24 bg-gray-100'>
+                  <span className='font-semibold text-md'>Instagram</span>
+                  <div className='flex justify-between'>
+                  <a
+                    key={link._id} 
+                    href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  ><span className='text-gray-600 text-sm'>https://www.{link.title}.com/{userName}/</span>    </a>
+                      <img className='cursor-pointer' src={IconDelete} />
+                    </div>
+                  </div>
+            ))}
           </div>
         </div>
 

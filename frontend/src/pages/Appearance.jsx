@@ -84,10 +84,35 @@ function Appearance() {
         console.error("Failed to fetch user data:", err);
       }
     };
+
+    
+    const [fetchLinks, setFetchLinks] = useState([]);
+
+    const fetchLinkDetails = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+    
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/fetch-link`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+          },
+        });
+    
+        setFetchLinks(response.data.links);
+        console.log(response.data.links);
+      } catch (err) {
+        console.error("Failed to fetch user data:", err);
+      }
+    };
     
     
     useEffect(() => { 
       fetchUserDetails();
+      fetchLinkDetails();
     }, []);
 
   return (
@@ -110,16 +135,22 @@ function Appearance() {
             Shop
           </button>
         </div>
-        <div className="absolute top-62 left-46 mt-20 space-y-3 w-full max-w-md">
-          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer`}>
-            <span className="w-10 h-10 bg-white rounded-full flex items-center justify-center p-2"> <img src={LogoYoutube} /></span>
-            <span className="font-semibold">Latest YouTube Video</span>
-          </div>
+        <div className="absolute top-62 left-46 mt-18 space-y-3 w-64 max-w-md overflow-y-auto max-h-42 hide-scrollbar">
 
-          <div className={`flex w-56 items-center text-sm ${frameButtonBg} border border-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer`}>
-            <span className="w-10 h-10 bg-white rounded-full flex items-center justify-center p-2"> <img src={LogoInstagram} /></span>
-            <span className="font-semibold">Latest Instagram reel</span>
-          </div>
+          {fetchLinks.map((link) => (
+              <a
+              key={link._id} 
+              href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              >
+              <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3">
+                <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoYoutube} /></span>
+                <span className="font-semibold">{link.title}</span>
+              </div>
+            </a>
+          ))}
+
         </div>
         <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center cursor-pointer">
           <button className="cursor-pointer">Get Connected</button>
