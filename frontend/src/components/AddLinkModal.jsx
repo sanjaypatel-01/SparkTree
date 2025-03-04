@@ -11,6 +11,7 @@ import IconCopy from "../assets/IconCopy.svg";
 function AddLinkModal({ onClose}) {
 
   const [toggle, setToggle] = useState(false);
+  const [activeToggle, setActiveToggle] = useState("link");
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -50,6 +51,30 @@ function AddLinkModal({ onClose}) {
       console.error("Failed to fetch user data:", err);
     }
   };
+
+      const handleEdit = async (linkId) => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.error("No token found");
+            return;
+          }
+    
+          // Send DELETE request to your backend
+          await axios.put(`${import.meta.env.VITE_BACKEND_URL}api/edit-link/${linkId}`,
+            { title, url, application }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+    
+          // Update state by filtering out the deleted link
+          setFetchLinks(fetchLinks.filter((link) => link._id !== linkId));
+          console.log("Link deleted successfully");
+        } catch (err) {
+          console.error("Error deleting link:", err);
+        }
+      };
   
   
 
@@ -57,10 +82,30 @@ function AddLinkModal({ onClose}) {
     <>
         <div className="fixed inset-0 flex justify-center items-center bg-opacity-50 backdrop-brightness-50 z-50">
       <div className="bg-gray-50 rounded-lg scale-100 w-2/7 h-[54%] relative overflow-hidden shadow-lg p-4">
-        <div className='flex space-x-2'>
+        {/* <div className='flex space-x-2'>
             <span className='rounded-2xl px-3 text-sm py-1 text-white bg-[#28A263]'>Add Link</span>
             <span className='rounded-2xl px-3 text-sm py-1 text-gray-800 bg-gray-200'>Add Shop</span>
+        </div> */}
+
+        <div className="flex space-x-2">
+          <span
+            onClick={() => setActiveToggle("link")}
+            className={`cursor-pointer rounded-2xl px-3 text-sm py-1 ${
+              activeToggle === "link" ? "text-white bg-[#28A263]" : "text-gray-800 bg-gray-200"
+            }`}
+          >
+            Add Link
+          </span>
+          <span
+            onClick={() => setActiveToggle("shop")}
+            className={`cursor-pointer rounded-2xl px-3 text-sm py-1 ${
+              activeToggle === "shop" ? "text-white bg-[#28A263]" : "text-gray-800 bg-gray-200"
+            }`}
+          >
+            Add Shop
+          </span>
         </div>
+
         <div className='w-full h-[70%] flex flex-col shadow-2xl rounded-2xl mt-6 p-3'>
             <label className='text-md font-semibold'>Enter URL</label>
             <div className='relative flex items-center'>

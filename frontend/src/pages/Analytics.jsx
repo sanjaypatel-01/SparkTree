@@ -18,41 +18,41 @@ import {
 function Analytics() {
   // Sample data for the line chart (monthly clicks)
   const lineData = [
-    { name: 'Jan', clicks: 800 },
-    { name: 'Feb', clicks: 1500 },
-    { name: 'Mar', clicks: 1000 },
-    { name: 'Apr', clicks: 2000 },
-    { name: 'May', clicks: 1700 },
-    { name: 'Jun', clicks: 2300 },
-    { name: 'Jul', clicks: 3000 },
+    { name: 'Jan', clicks: 0 },
+    { name: 'Feb', clicks: 1 },
+    { name: 'Mar', clicks: 0 },
+    { name: 'Apr', clicks: 0 },
+    { name: 'May', clicks: 0 },
+    { name: 'Jun', clicks: 0 },
+    { name: 'Jul', clicks: 0 },
   ];
 
   // Sample data for the bar chart (traffic by links or devices)
   const barData = [
-    { name: 'Link 1', value: 1200 },
-    { name: 'Link 2', value: 800 },
-    { name: 'Link 3', value: 600 },
-    { name: 'Link 4', value: 900 },
+    { name: 'Link 1', value: 1 },
+    { name: 'Link 2', value: 1 },
+    { name: 'Link 3', value: 0 },
+    { name: 'Link 4', value: 0 },
   ];
 
   // Sample data for the pie chart (sites or social sources)
   const pieData = [
-    { name: 'YouTube', value: 520 },
-    { name: 'Facebook', value: 320 },
-    { name: 'Instagram', value: 190 },
-    { name: 'Other', value: 80 },
+    { name: 'YouTube', value: 1 },
+    { name: 'Facebook', value: 1 },
+    { name: 'Instagram', value: 0 },
+    { name: 'Other', value: 0 },
   ];
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   
     // New bar chart data for "Traffic by Links" (6 links)
     const extendedLinksData = [
-      { name: 'Link 1', value: 3000 },
-      { name: 'Link 2', value: 2500 },
-      { name: 'Link 3', value: 1500 },
-      { name: 'Link 4', value: 3000 },
-      { name: 'Link 5', value: 1200 },
-      { name: 'Link 6', value: 2200 },
+      { name: 'Link 1', value: 1 },
+      { name: 'Link 2', value: 1 },
+      { name: 'Link 3', value: 0 },
+      { name: 'Link 4', value: 0 },
+      { name: 'Link 5', value: 0 },
+      { name: 'Link 6', value: 0 },
     ];
     // Some shades of green for each bar
     const linkColors = ['#B5F1B6', '#8BE596', '#49C267', '#29A264', '#7FEBA3', '#3FA25D'];
@@ -73,15 +73,15 @@ function Analytics() {
         <div className='flex mt-4 w-full space-x-12'>
           <div className='bg-[#22D679] h-[14vh] w-full rounded-2xl p-6 flex flex-col space-y-3'>
             <span className='text-white text-lg'>Clicks on Links</span>
-            <span className='text-white font-semibold text-3xl'>2,318</span>
+            <span className='text-white font-semibold text-3xl'>02</span>
           </div>
           <div className='bg-green-200 h-[14vh] w-full rounded-2xl p-6 flex flex-col space-y-3'>
             <span className='text-black text-lg'>Click on Shop</span>
-            <span className='text-black font-semibold text-3xl'>7,265</span>
+            <span className='text-black font-semibold text-3xl'>0</span>
           </div>
           <div className='bg-green-200 h-[14vh] w-full rounded-2xl p-6 flex flex-col space-y-3'>
             <span className='text-black text-lg'>CTA</span>
-            <span className='text-black font-semibold text-3xl'>156</span>
+            <span className='text-black font-semibold text-3xl'>01</span>
           </div>
         </div>
 

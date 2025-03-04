@@ -124,6 +124,51 @@ router.post("/create-link", authMiddleware, async (req, res) => {
   }
 });
 
+//Edit
+router.put("/edit-link/:linkId", authMiddleware, async (req, res) => {
+  const userId = req.user.id; // Extract user ID from token
+  const { linkId } = req.params; // The ID of the link to edit
+  const { title, url, application } = req.body; // New data for the link
+
+  try {
+    // Validate required fields
+    if (!title || !url || !application) {
+      return res.status(400).json({ message: "Title, URL, and Application are required" });
+    }
+
+    // Normalize the application field to lowercase
+    const normalizedApplication = application.toLowerCase();
+
+    // Find the user's profile that contains the links
+    let profile = await linkModel.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    // Find the link by linkId in the profile's links array
+    const link = profile.links.find(link => link._id.toString() === linkId);
+    if (!link) {
+      return res.status(404).json({ message: "Link not found" });
+    }
+
+    // Update the link's fields
+    link.title = title;
+    link.url = url;
+    link.application = normalizedApplication;
+
+    // Save the updated profile
+    await profile.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Link updated successfully",
+      profile,
+    });
+  } catch (err) {
+    console.error("Edit Link Error:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+  }
+});
 
 
 // Fetch Links

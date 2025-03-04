@@ -16,6 +16,7 @@ import LogoBlack from "../assets/LogoBlack.svg";
 import IconDelete from "../assets/IconDelete.svg";
 import LogoInstagram from "../assets/ApplicationsIcons/Instagram.svg";
 import LogoYoutube from "../assets/ApplicationsIcons/Youtube.svg";
+import IconEdit from "../assets/IconEdit.svg";
 
 function Links() {
 
@@ -98,6 +99,7 @@ function Links() {
           return;
         }
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}api/links`,{bannerImage, bio}, {
+          
           headers: {
             Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
           },
@@ -164,6 +166,8 @@ function Links() {
       console.error("Error deleting link:", err);
     }
     };
+
+
   
 
 
@@ -207,6 +211,7 @@ function Links() {
         fetchButtonAndButtonFontDetails();
       }, []);
   
+      const [activeToggle, setActiveToggle] = useState("link");
 
 
   return (
@@ -230,13 +235,24 @@ function Links() {
           @{userName}
         </h2>
         <div className="absolute top-44 left-52 mt-18 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
-          <button className="px-8 py-1 rounded-full transition-colors bg-[#28A263] text-white cursor-pointer">
-            link
+          <button
+            onClick={() => setActiveToggle("link")}
+            className={`px-8 py-1 rounded-full transition-colors cursor-pointer ${
+              activeToggle === "link" ? "bg-[#28A263] text-white" : "text-gray-700"
+            }`}
+          >
+            Link
           </button>
-          <button className="px-4 py-1 rounded-full transition-colors text-gray-700 cursor-pointer">
+          <button
+            onClick={() => setActiveToggle("shop")}
+            className={`px-4 py-1 rounded-full transition-colors cursor-pointer ${
+              activeToggle === "shop" ? "bg-[#28A263] text-white" : "text-gray-700"
+            }`}
+          >
             Shop
           </button>
         </div>
+        
         
       {selected === "Stack" && (
         <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
@@ -339,14 +355,26 @@ function Links() {
 
         {/* Links Section */}
         <div className="rounded-lg h-36 w-full bg-white mt-10 p-4 min-h-82 flex flex-col">
+
           <div className="w-full">
-            <button className="rounded-full py-2 px-4 text-white text-sm bg-[#28A263] cursor-pointer">
+            <button
+              onClick={() => setActiveToggle("link")}
+              className={`rounded-full py-2 px-4 text-sm cursor-pointer ${
+                activeToggle === "link" ? "bg-[#28A263] text-white" : "bg-gray-100 text-gray-600"
+              }`}
+            >
               Add Link
             </button>
-            <button className="rounded-full py-2 px-4 bg-gray-100 text-gray-600 text-sm ml-2 cursor-pointer">
+            <button
+              onClick={() => setActiveToggle("shop")}
+              className={`rounded-full py-2 px-4 text-sm ml-2 cursor-pointer ${
+                activeToggle === "shop" ? "bg-[#28A263] text-white" : "bg-gray-100 text-gray-600"
+              }`}
+            >
               Add Shop
             </button>
           </div>
+
           <div className="w-full">
             <button onClick={openAddLinkModal} className="rounded-full w-full py-2 text-white text-md bg-[#28A263] mt-6 cursor-pointer hover:font-bold">
               + Add
@@ -363,7 +391,10 @@ function Links() {
                     target="_blank"
                     rel="noopener noreferrer"
                   ><span className='text-gray-600 text-sm'>https://www.{link.title}.com/{userName}/</span>    </a>
-                      <img onClick={() => handleDelete(link._id)} className='cursor-pointer hover:scale-120' src={IconDelete} />
+                      <div className='flex space-x-2'>
+                          <img onClick={() => handleDelete(link._id)} className='w-5 cursor-pointer hover:scale-120' src={IconDelete} />
+                          <img onClick={() => handleEdit(link._id)} className='w-5 cursor-pointer hover:scale-120' src={IconEdit} />
+                      </div>
                     </div>
                   </div>
             ))}

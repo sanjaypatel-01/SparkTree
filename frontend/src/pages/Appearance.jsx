@@ -226,6 +226,8 @@ function Appearance() {
         }
       };
 
+      const [activeToggle, setActiveToggle] = useState("link");
+
   return (
     <>
         <div className="w-full h-full h-screen flex">
@@ -245,13 +247,24 @@ function Appearance() {
           @{userName}
         </h2>
         <div className="absolute top-44 left-52 mt-18 flex items-center w-42 bg-gray-300 rounded-full p-1 mb-6">
-          <button className="px-8 py-1 rounded-full transition-colors bg-[#28A263] text-white cursor-pointer">
-            link
+          <button
+            onClick={() => setActiveToggle("link")}
+            className={`px-8 py-1 rounded-full transition-colors cursor-pointer ${
+              activeToggle === "link" ? "bg-[#28A263] text-white" : "text-gray-700"
+            }`}
+          >
+            Link
           </button>
-          <button className="px-4 py-1 rounded-full transition-colors text-gray-700 cursor-pointer">
+          <button
+            onClick={() => setActiveToggle("shop")}
+            className={`px-4 py-1 rounded-full transition-colors cursor-pointer ${
+              activeToggle === "shop" ? "bg-[#28A263] text-white" : "text-gray-700"
+            }`}
+          >
             Shop
           </button>
         </div>
+        
         {/* <div className="absolute top-62 left-46 mt-16 space-y-3 w-56 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
 
           {fetchLinks.map((link) => (
