@@ -10,14 +10,24 @@ import ImageBoy from '../assets/ImageBoy.svg'
 import IconShare from '../assets/IconShare.svg'
 import FrameMobile from '../assets/FrameMobile.svg'
 import IconFire from '../assets/IconFire.svg'
+import IconSignOut from '../assets/IconSignOut.svg'
 
 function Layout() {
 
+  
   // To determine the active route
   const location = useLocation();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(""); // Search state
   const [showToast, setShowToast] = useState(false);
+
+  const [showLogout, setShowLogout] = useState(false);
+
+  // Handle sign out
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const [userFullName, setUserFullName] = useState("");
 
@@ -68,6 +78,7 @@ const fetchUserDetails = async () => {
     fetchUserDetails();
   }, []);
 
+  
   return (
     <>
         <div className='w-full h-screen flex overflow-hidden'>
@@ -103,11 +114,39 @@ const fetchUserDetails = async () => {
         <img src={IconSettings} alt="" />
         <span>Settings</span>
     </Link>
-    <div className='absolute bottom-6 flex items-center px-3 py-1 ml-6 rounded-full font-semibold italic border-1 border-black space-x-3'>
-        <img src={ImageBoy} alt="" />
-        <h4>{userFullName ? userFullName : "User"}</h4>
-    </div>
-</div>
+{/* Profile + Floating Sign Out */}
+<div className='absolute bottom-6 left-6 flex flex-col items-center'>
+            {/* Profile Pill */}
+            <div
+              onClick={() => setShowLogout(!showLogout)}
+              className='flex items-center px-3 py-1 rounded-full font-semibold italic border border-black space-x-3 cursor-pointer'
+            >
+              <img src={ImageBoy} alt="User" />
+              <h4>{userFullName || "User"}</h4>
+            </div>
+
+            {/* Floating Sign-Out (only shown when showLogout = true) */}
+            {showLogout && (
+              <div className="relative w-full flex justify-center">
+                <div
+                  className="absolute -top-24 left-4 bg-gray-50 border border-gray-200 shadow-md
+                             px-4 py-2 w-30 rounded-full flex items-center space-x-2 cursor-pointer"
+                >
+                  {/* Sign Out Icon */}
+                  <img src={IconSignOut} />
+
+                  {/* Sign Out Button/Text */}
+                  <button 
+                    onClick={handleLogout} 
+                    className="text-gray-700 font-semibold text-sm"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
 {/* Right Side Content */}
 <div className='w-[85%] flex flex-col bg-gray-100 h-screen'>
