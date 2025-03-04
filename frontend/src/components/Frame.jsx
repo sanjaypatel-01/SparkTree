@@ -98,7 +98,7 @@ function Frame() {
         const fetchButtonAndButtonFontDetails = async () => {
             try {
           
-              const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}appearance/fetch-link`);
+              const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}appearance/fetch-link/${userId}`);
           
               const { profile } = response.data;
               const { buttonColor, buttonFontColor, layout, backgroundTheme } = profile;
