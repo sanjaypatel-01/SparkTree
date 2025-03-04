@@ -63,6 +63,27 @@ router.get("/fetch-link", authMiddleware, async (req, res) => {
       res.status(500).json({ message: "Internal Server Error", error: err.message });
     }
   });
+
+  router.get("/fetch-link/:id", async (req, res) => {
+    const user = req.params.id; // Extract user ID from token
+  
+    try {
+      const profile = await linkAppearance.findOne({ user });
+  
+      if (!profile) {
+        return res.status(404).json({ message: "Profile not found" });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: "Links fetched successfully",
+        profile,
+      });
+    } catch (err) {
+      console.error("Fetch Links Error:", err);
+      res.status(500).json({ message: "Internal Server Error", error: err.message });
+    }
+  });
   
 
   router.get('/getlinks', authMiddleware, async (req, res) => {
