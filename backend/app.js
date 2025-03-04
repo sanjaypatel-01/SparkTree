@@ -8,6 +8,7 @@ import useragent from "express-useragent";
 import db from "./config/mongoose-connection.js" // MongoDB Connection
 import userRoutes from "./routes/user-route.js"
 import linkRoutes from "./routes/link-route.js"
+import apperanceRoutes from "./routes/appearance-route.js"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 // API routes
 app.use("/user", userRoutes); 
 app.use("/api", linkRoutes); 
+app.use("/appearance", apperanceRoutes); 
 
 // Start Server
 app.listen(PORT, () => {

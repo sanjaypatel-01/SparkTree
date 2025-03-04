@@ -144,6 +144,7 @@ function Appearance() {
           fetchUserDetails();
           fetchLinkDetails();
           fetchBioBannerDetails();
+          fetchButtonAndButtonFontDetails();
         }, []);
 
        // Button Color
@@ -171,45 +172,59 @@ function Appearance() {
               return;
             }
         
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/getlinks`, {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}appearance/fetch-link`, {
               headers: {
                 Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
               },
             });
         
-            const { buttonColor, buttonFontColor } = response.data;
+            const { profile } = response.data;
+            const { buttonColor, buttonFontColor, layout, backgroundTheme } = profile;
+
             setButtonColor(buttonColor);
             setButtonFontColor(buttonFontColor);
-            setId(response.data.userId);
+            setSelected(layout);
+            setFrameBg(backgroundTheme);
+            setId(profile.user);
+           
             console.log("Bio and Banner:", buttonColor, buttonFontColor);
           } catch (err) {
             console.error("Failed to fetch user data:", err);
           }
         };
           
-        const setBioBanner = async () => {
-          try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-              console.error("No token found");
-              return;
-            }
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}api/links`,{buttonColor, buttonFontColor}, {
-              headers: {
-                Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
-              },
-            });
-    
-              // 2. Update state directly from the backend response
-              setButtonColor(response.data.buttonColor);
-              setButtonFontColor(response.data.buttonFontColor);
-            console.log("Bio and Banner updated successfully:", response.data.buttonColor, response.data.buttonFontColor);
-
-    
-          } catch (err) {
-            console.error("Failed to fetch user data:", err);
+      const setButtonAndButtonFontDetails = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.error("No token found");
+            return;
           }
-        };
+          const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}appearance/links`,
+            {        
+              buttonColor,
+              buttonFontColor,
+              layout: selected,
+              theme: frameBg,
+           }, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+            },
+          });
+  
+            // 2. Update state directly from the backend response
+            setButtonColor(response.data.buttonColor);
+            setButtonFontColor(response.data.buttonFontColor);
+            setSelected(response.data.layout);
+            setFrameBg(response.data.theme);
+            fetchButtonAndButtonFontDetails();
+          console.log("Bio and Banner updated successfully:", response.data.buttonColor, response.data.buttonFontColor, response.data.layout, response.data.theme);
+
+  
+        } catch (err) {
+          console.error("Failed to fetch user data:", err);
+        }
+      };
 
   return (
     <>
@@ -217,7 +232,7 @@ function Appearance() {
       {/* Frame Section */}
       <div className="w-[45%] p-8 relative">
         <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
-          <div className={`absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl ${frameBg}`}></div>
+          <div className="absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl"  style={{ backgroundColor: frameBg }}></div>
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl" style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
           <img  onClick={() => {
@@ -468,7 +483,7 @@ function Appearance() {
               <div className="flex w-full justify-between">   
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-white rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                       onClick={() => {handleThemeButtonChange("bg-gray-800"); handleFrameBgChange("bg-white")}}>
+                       onClick={() => {handleThemeButtonChange("bg-gray-800"); handleFrameBgChange("#ffffff")}}>
                     <span className="w-full h-4 rounded-sm bg-gray-800"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-800"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-800"></span>         
@@ -477,7 +492,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#E0E2D9] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                   onClick={() => {handleThemeButtonChange("bg-white"); handleFrameBgChange("bg-[#E0E2D9]")}}>
+                   onClick={() => {handleThemeButtonChange("bg-white"); handleFrameBgChange("#E0E2D9")}}>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>         
@@ -486,7 +501,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#272d2f] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => {handleThemeButtonChange("bg-white"); handleFrameBgChange("bg-[#272d2f]")}}>
+                  onClick={() => {handleThemeButtonChange("bg-white"); handleFrameBgChange("#272d2f")}}>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>
                     <span className="w-full h-4 rounded-sm bg-white"></span>         
@@ -495,7 +510,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-black rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => {handleThemeButtonChange("bg-gray-700"); handleFrameBgChange("bg-black")}}>
+                  onClick={() => {handleThemeButtonChange("bg-gray-700"); handleFrameBgChange("#000000")}}>
                     <span className="w-full h-4 rounded-sm bg-gray-700"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-700"></span>
                     <span className="w-full h-4 rounded-sm bg-gray-700"></span>         
@@ -506,7 +521,7 @@ function Appearance() {
               <div className="flex w-full justify-between">
                <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#e4f5fe] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => {handleThemeButtonChange("bg-[#e4f5fe]"); handleFrameBgChange("bg-[#e4f5fe]")}}>
+                  onClick={() => {handleThemeButtonChange("bg-[#e4f5fe]"); handleFrameBgChange("#e4f5fe")}}>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
@@ -515,7 +530,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#e5f9ef] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => {handleThemeButtonChange("bg-[#e5f9ef]"); handleFrameBgChange("bg-[#e5f9ef]")}}>
+                  onClick={() => {handleThemeButtonChange("bg-[#e5f9ef]"); handleFrameBgChange("#e5f9ef")}}>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
@@ -524,7 +539,7 @@ function Appearance() {
                 </div>
                 <div className="flex flex-col space-y-1 items-center justify-center">
                   <div className="bg-[#fcefe3] rounded-lg border border-gray-300 h-46 w-30 p-2 flex flex-col justify-center space-y-1 items-center cursor-pointer"
-                  onClick={() => {handleThemeButtonChange("bg-[#fcefe3]"); handleFrameBgChange("bg-[#fcefe3]")}}>
+                  onClick={() => {handleThemeButtonChange("bg-[#fcefe3]"); handleFrameBgChange("#fcefe3")}}>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>
                     <span className="w-full h-4 rounded-lg bg-none border border-gray-300"></span>         
@@ -540,7 +555,7 @@ function Appearance() {
           </div>
 
         <div className="w-full flex justify-end pr-4 mb-30">
-          <button className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg cursor-pointer">
+          <button onClick={setButtonAndButtonFontDetails} className="bg-[#29A263] w-30 text-white text-md py-2 px-6 mt-8 rounded-lg cursor-pointer">
             Save
           </button>
         </div>

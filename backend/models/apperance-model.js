@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const appearanceSchema = new mongoose.Schema(
   {
@@ -10,28 +10,17 @@ const appearanceSchema = new mongoose.Schema(
     // Background / Theme
     backgroundTheme: {
       type: String,
-      default: "air-snow",
+      default: "ffffff",
     },
-    customBackgroundColor: {
-      type: String, // Hex code or CSS color
+
+    buttonColor: {
+      type: String,
       default: "#ffffff",
     },
 
-    // Button Design
-    button: {
-      style: {
-        type: String,
-        default: "fill",
-      },
-      color: {
-        type: String,
-        default: "#ffffff",
-      },
-      textColor: {
-        type: String,
-        default: "#000000",
-      },
-      // Add other button design properties here, e.g. borderRadius, fontWeight, etc.
+    buttonFontColor: {
+      type: String,
+      default: "#000000",
     },
 
     // Layout Options

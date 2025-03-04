@@ -164,12 +164,49 @@ function Links() {
       console.error("Error deleting link:", err);
     }
     };
-    
-    useEffect(() => { 
-      fetchUserDetails();
-      fetchBioBannerDetails();
-      fetchLinkDetails();
-    }, []);
+  
+
+
+    const [selected, setSelected] = useState("Stack");
+    const [buttonColor, setButtonColor] = useState("#C9C9C9");
+    const [buttonFontColor, setButtonFontColor] = useState("#1E1E20");
+
+    const fetchButtonAndButtonFontDetails = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.error("No token found");
+            return;
+          }
+      
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}appearance/fetch-link`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+            },
+          });
+      
+          const { profile } = response.data;
+          const { buttonColor, buttonFontColor, layout, backgroundTheme } = profile;
+
+          setButtonColor(buttonColor);
+          setButtonFontColor(buttonFontColor);
+          setSelected(layout);
+          setFrameBg(backgroundTheme);
+          setId(profile.user);
+          
+          console.log("Bio and Banner:", buttonColor, buttonFontColor);
+        } catch (err) {
+          console.error("Failed to fetch user data:", err);
+        }
+      };
+
+      useEffect(() => { 
+        fetchUserDetails();
+        fetchBioBannerDetails();
+        fetchLinkDetails();
+        fetchButtonAndButtonFontDetails();
+      }, []);
+  
 
 
   return (
@@ -179,7 +216,7 @@ function Links() {
       <div className="w-[45%] p-8 relative">
         {/* <img className="w-70 ml-30" src={FrameMobile} alt="" /> */}
         <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl">
-          <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-[#ffffff]"></div>
+          <div className="absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl" style={{ backgroundColor: frameBg }}></div>
           <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: bannerImage}}></div>
           <img className="absolute w-20 top-10" src={ImageBoy}  />
           <img onClick={() => {
@@ -210,9 +247,9 @@ function Links() {
               target="_blank"
               rel="noopener noreferrer"
               >
-              <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3">
+              <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3" style={{ backgroundColor: buttonColor}}>
                 <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoYoutube} /></span>
-                <span className="font-semibold">{link.title}</span>
+                <span className="font-semibold" style={{ color: buttonFontColor}}>{link.title}</span>
               </div>
             </a>
           ))}
