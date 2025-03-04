@@ -57,6 +57,8 @@ function Frame() {
       }
     };
     
+    const [id, setId] = useState("");
+
     const fetchBioBannerDetails = async () => {
       try {
     
@@ -89,11 +91,35 @@ function Frame() {
       }
     };
 
+        const [selected, setSelected] = useState("Stack");
+        const [buttonColor, setButtonColor] = useState("#C9C9C9");
+        const [buttonFontColor, setButtonFontColor] = useState("#1E1E20");
+    
+        const fetchButtonAndButtonFontDetails = async () => {
+            try {
+          
+              const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}appearance/fetch-link`);
+          
+              const { profile } = response.data;
+              const { buttonColor, buttonFontColor, layout, backgroundTheme } = profile;
+    
+              setButtonColor(buttonColor);
+              setButtonFontColor(buttonFontColor);
+              setSelected(layout);
+              setFrameBg(backgroundTheme);
+              setId(profile.user);
+              
+              console.log("Bio and Banner:", buttonColor, buttonFontColor);
+            } catch (err) {
+              console.error("Failed to fetch user data:", err);
+            }
+          };
     
     useEffect(() => { 
       fetchUserDetails();
       fetchBioBannerDetails();
       fetchLinkDetails();
+      fetchButtonAndButtonFontDetails();
     }, []);
 
 
@@ -104,11 +130,11 @@ function Frame() {
             <div className="w-[45%] p-8 relative">
                 {/* <img className="w-70 ml-30" src={FrameMobile} alt="" /> */}
                 <div className= "relative w-70 ml-30 h-140 flex justify-center bg-white border-12 border-black rounded-4xl shadow">
-                <div className="absolute top-0 left-0 w-full h-full rounded-3xl bg-[#ffffff]"></div>
+                <div className="absolute top-0 left-0 w-full h-full rounded-3xl rounded-b-2xl" style={{ backgroundColor: frameBg }}></div>
                 <div className="absolute top-0 left-0 w-full h-[34%] rounded-2xl shadow-lg rounded-b-3xl"  style={{ backgroundColor: bannerImage}}></div>
                 <img className="absolute w-20 top-10" src={ImageBoy}  />
                 <img onClick={() => {
-                            navigator.clipboard.writeText(`https://spark-tree-two.vercel.app/frame/`);
+                            navigator.clipboard.writeText(`https://spark-tree-two.vercel.app/frame/${id}`);
                             setShowToast(true);
                             setTimeout(() => setShowToast(false), 2000);
                             }} 
@@ -126,23 +152,70 @@ function Frame() {
                 </button>
                 </div>
                 
-                <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+ {selected === "Stack" && (
+         <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+           {fetchLinks.map((link) => (
+               <a
+               key={link._id} 
+               href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+               target="_blank"
+               rel="noopener noreferrer"
+               >
+               <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3" style={{ backgroundColor: buttonColor}}>
+                 <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoYoutube} /></span>
+                 <span className="font-semibold" style={{ color: buttonFontColor}}>{link.title}</span>
+               </div>
+             </a>
+           ))}
+         </div>
+         )}
+ 
+         {selected === "Grid" && (
+           <div className="absolute top-62 left-46 mt-16 grid grid-cols-2 gap-4 w-56 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+             {fetchLinks.map((link) => (
+               <a
+                 key={link._id}
+                 href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+                 target="_blank"
+                 rel="noopener noreferrer"
+               >
+                 <div
+                   className="flex flex-col items-center text-sm bg-gray-300 rounded-lg p-2 cursor-pointer"
+                   style={{ backgroundColor: buttonColor }}
+                 >
+                   <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
+                     <img src={LogoYoutube} alt="Youtube" />
+                   </span>
+                   <span className="font-semibold" style={{ color: buttonFontColor }}>{link.title}</span>
+                 </div>
+               </a>
+             ))}
+           </div>
+         )}
+ 
+           {selected === "Carousel" && (
+             <div className="absolute top-70 left-46 mt-16 flex space-x-4 w-56 max-w-md overflow-x-auto hide-scrollbar">
+               {fetchLinks.map((link) => (
+                 <a
+                   key={link._id}
+                   href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                 >
+                   <div
+                     className="flex flex-col items-center min-w-22 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer"
+                     style={{ backgroundColor: buttonColor }}
+                   >
+                     <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
+                       <img src={LogoYoutube} alt="Youtube" />
+                     </span>
+                     <span className="font-semibold" style={{ color: buttonFontColor }}>{link.title}</span>
+                   </div>
+                 </a>
+               ))}
+             </div>
+           )}
 
-                {fetchLinks.map((link) => (
-                    <a
-                    key={link._id} 
-                    href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >
-                    <div key={link} className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3">
-                        <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2"> <img src={LogoYoutube} /></span>
-                        <span className="font-semibold">{link.title}</span>
-                    </div>
-                    </a>
-                ))}
-
-                </div>
                 <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center cursor-pointer">
                 <button className="cursor-pointer">Get Connected</button>
                 </div>

@@ -238,8 +238,8 @@ function Links() {
           </button>
         </div>
         
+      {selected === "Stack" && (
         <div className="absolute top-62 left-46 mt-16 space-y-3 w-64 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
-
           {fetchLinks.map((link) => (
               <a
               key={link._id} 
@@ -253,8 +253,56 @@ function Links() {
               </div>
             </a>
           ))}
-
         </div>
+        )}
+
+        {selected === "Grid" && (
+          <div className="absolute top-62 left-46 mt-16 grid grid-cols-2 gap-4 w-56 max-w-md overflow-y-auto max-h-44 hide-scrollbar">
+            {fetchLinks.map((link) => (
+              <a
+                key={link._id}
+                href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div
+                  className="flex flex-col items-center text-sm bg-gray-300 rounded-lg p-2 cursor-pointer"
+                  style={{ backgroundColor: buttonColor }}
+                >
+                  <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
+                    <img src={LogoYoutube} alt="Youtube" />
+                  </span>
+                  <span className="font-semibold" style={{ color: buttonFontColor }}>{link.title}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+
+          {selected === "Carousel" && (
+            <div className="absolute top-70 left-46 mt-16 flex space-x-4 w-56 max-w-md overflow-x-auto hide-scrollbar">
+              {fetchLinks.map((link) => (
+                <a
+                  key={link._id}
+                  href={link.url.startsWith('http') ? link.url : `http://${link.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div
+                    className="flex flex-col items-center min-w-22 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer"
+                    style={{ backgroundColor: buttonColor }}
+                  >
+                    <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
+                      <img src={LogoYoutube} alt="Youtube" />
+                    </span>
+                    <span className="font-semibold" style={{ color: buttonFontColor }}>{link.title}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+        
+
         <div className="absolute top-106 left-55 mt-20 bg-[#35CA7D] text-white text-xs px-3 py-2 rounded-full w-36 flex items-center justify-center cursor-pointer">
           <button className="cursor-pointer">Get Connected</button>
         </div>
