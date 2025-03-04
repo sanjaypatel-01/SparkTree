@@ -20,7 +20,7 @@ import IconEdit from "../assets/IconEdit.svg";
 
 function Links() {
 
-  const [frameBg, setFrameBg] = useState("#342B26");
+  const [frameBg, setFrameBg] = useState("#ffffff");
   const [showToast, setShowToast] = useState(false);
 
   const handleFrameBgChange = (color) => {
