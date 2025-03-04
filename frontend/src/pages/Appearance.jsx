@@ -146,6 +146,71 @@ function Appearance() {
           fetchBioBannerDetails();
         }, []);
 
+       // Button Color
+       const [buttonColor, setButtonColor] = useState("#C9C9C9");
+
+       const handleButtonColorChange = (color) => {
+        setButtonColor(color);
+      };
+      //  style={{ backgroundColor: buttonColor}}
+
+       // Button Font Color
+       const [buttonFontColor, setButtonFontColor] = useState("#1E1E20");
+
+       const handleButtonFontColorChange = (color) => {
+        setButtonFontColor(color);
+      };
+      //  style={{ backgroundColor: buttonFontColor}}
+
+
+     const fetchButtonAndButtonFontDetails = async () => {
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              console.error("No token found");
+              return;
+            }
+        
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/getlinks`, {
+              headers: {
+                Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+              },
+            });
+        
+            const { buttonColor, buttonFontColor } = response.data;
+            setButtonColor(buttonColor);
+            setButtonFontColor(buttonFontColor);
+            setId(response.data.userId);
+            console.log("Bio and Banner:", buttonColor, buttonFontColor);
+          } catch (err) {
+            console.error("Failed to fetch user data:", err);
+          }
+        };
+          
+        const setBioBanner = async () => {
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              console.error("No token found");
+              return;
+            }
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}api/links`,{buttonColor, buttonFontColor}, {
+              headers: {
+                Authorization: `Bearer ${token}`, // Make sure "Bearer" is added
+              },
+            });
+    
+              // 2. Update state directly from the backend response
+              setButtonColor(response.data.buttonColor);
+              setButtonFontColor(response.data.buttonFontColor);
+            console.log("Bio and Banner updated successfully:", response.data.buttonColor, response.data.buttonFontColor);
+
+    
+          } catch (err) {
+            console.error("Failed to fetch user data:", err);
+          }
+        };
+
   return (
     <>
         <div className="w-full h-full h-screen flex">
@@ -198,11 +263,11 @@ function Appearance() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="flex w-56 items-center text-sm bg-gray-300 space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3">
+        <div className="flex w-56 items-center text-sm space-x-2 rounded-full pl-2 py-2 cursor-pointer mb-3" style={{ backgroundColor: buttonColor}}>
           <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center p-2">
             <img src={LogoYoutube} alt="Youtube" />
           </span>
-          <span className="font-semibold">{link.title}</span>
+          <span className="font-semibold" style={{ color: buttonFontColor}}>{link.title}</span>
         </div>
       </a>
     ))}
@@ -218,11 +283,11 @@ function Appearance() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="flex flex-col items-center text-sm bg-gray-300 rounded-lg p-2 cursor-pointer">
+        <div className="flex flex-col items-center text-sm bg-gray-300 rounded-lg p-2 cursor-pointer" style={{ backgroundColor: buttonColor}}>
           <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
             <img src={LogoYoutube} alt="Youtube" />
           </span>
-          <span className="font-semibold">{link.title}</span>
+          <span className="font-semibold" style={{ color: buttonFontColor}}>{link.title}</span>
         </div>
       </a>
     ))}
@@ -238,11 +303,11 @@ function Appearance() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="flex flex-col items-center min-w-22 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer">
+        <div className="flex flex-col items-center min-w-22 text-sm bg-gray-300 rounded-lg p-2 cursor-pointer" style={{ backgroundColor: buttonColor}}>
           <span className="w-10 h-10 bg-white rounded-full flex justify-center items-center mb-1">
             <img src={LogoYoutube} alt="Youtube" />
           </span>
-          <span className="font-semibold">{link.title}</span>
+          <span className="font-semibold" style={{ color: buttonFontColor}}>{link.title}</span>
         </div>
       </a>
     ))}
@@ -319,18 +384,45 @@ function Appearance() {
              </div>
              <label className="text-sm font-bold text-gray-800 mt-5">Button color</label>
              <div className="flex items-center space-x-3">
-                <span className="w-14 h-14 rounded-lg border bg-white border-gray-200"></span>
+                <span className="w-14 h-14 rounded-lg border border-gray-200" style={{ backgroundColor: buttonColor}}></span>
                 <div className="flex flex-col justify-center bg-gray-100 rounded-lg p-2">
                   <label className="text-gray-500 text-sm font-semibold">Button color</label>
-                  <input className="" type="text" placeholder="#ffffff"/>
+                  <input
+                    type="text"
+                    maxLength={7}
+                    placeholder="#ffffff"
+                    // value={`#${frameBg.replace("#", "")}` || `${bannerImage}`}
+                    value={buttonColor}
+                    onChange={(e) => {
+                      const value = e.target.value.replace("#", ""); 
+                      if (value.length <= 6) {
+                        handleButtonColorChange(`#${value}`); 
+                        // handleButtonColorChange(`#${value}`); setBannerImage(`${e.target.value}`); 
+                      }
+                    }}
+                  />
                 </div>
              </div>
              <label className="text-sm font-bold text-gray-800 mt-5">Button font color</label>
              <div className="flex items-center space-x-3">
-                <span className="w-14 h-14 rounded-lg border bg-gray-500 border-gray-200"></span>
+                <span className="w-14 h-14 rounded-lg border bg-gray-500" style={{ backgroundColor: buttonFontColor}}></span>
                 <div className="flex flex-col justify-center bg-gray-100 rounded-lg p-2">
                   <label className="text-gray-500 text-sm font-semibold">Button font color</label>
-                  <input className="" type="text" placeholder="#888888"/>
+                  {/* <input className="" type="text" placeholder="#888888"/> */}
+                  <input
+                    type="text"
+                    maxLength={7}
+                    placeholder="#000000"
+                    // value={`#${frameBg.replace("#", "")}` || `${bannerImage}`}
+                    value={buttonFontColor}
+                    onChange={(e) => {
+                      const value = e.target.value.replace("#", ""); 
+                      if (value.length <= 6) {
+                        handleButtonFontColorChange(`#${value}`); 
+                        // handleButtonColorChange(`#${value}`); setBannerImage(`${e.target.value}`); 
+                      }
+                    }}
+                  />
                 </div>
              </div>
 
@@ -348,10 +440,24 @@ function Appearance() {
             </div>
             <label className="text-sm font-bold text-gray-800 mt-5">Button font color</label>
              <div className="flex items-center space-x-3">
-                <span className="w-14 h-14 rounded-lg border bg-white border-gray-200"></span>
+                <span className="w-14 h-14 rounded-lg border border-gray-200" style={{ backgroundColor: buttonFontColor}}></span>
                 <div className="flex flex-col justify-center bg-gray-100 rounded-lg p-2">
                   <label className="text-gray-500 text-sm font-semibold">Color</label>
-                  <input className="" type="text" placeholder="#ffffff"/>
+                  {/* <input className="" type="text" placeholder="#ffffff"/> */}
+                  <input
+                    type="text"
+                    maxLength={7}
+                    placeholder="#000000"
+                    // value={`#${frameBg.replace("#", "")}` || `${bannerImage}`}
+                    value={buttonFontColor}
+                    onChange={(e) => {
+                      const value = e.target.value.replace("#", ""); 
+                      if (value.length <= 6) {
+                        handleButtonFontColorChange(`#${value}`); 
+                        // handleButtonColorChange(`#${value}`); setBannerImage(`${e.target.value}`); 
+                      }
+                    }}
+                  />
                 </div>
              </div>
         </div>
