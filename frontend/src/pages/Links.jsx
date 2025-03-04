@@ -88,7 +88,7 @@ function Links() {
       }
     };
 
-    const [bannerImage, setBannerImage] = useState("");
+    const [bannerImage, setBannerImage] = useState("#342B26");
     const [bio, setBio] = useState("Bio");
     
     const setBioBanner = async () => {

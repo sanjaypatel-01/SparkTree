@@ -111,7 +111,7 @@ function Appearance() {
       }
     };
     
-    const [bannerImage, setBannerImage] = useState("");
+    const [bannerImage, setBannerImage] = useState("#342B26");
 
     const [id, setId] = useState("");
 
